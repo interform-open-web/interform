@@ -1,0 +1,50 @@
+{
+  "name": "Feedback Form",
+  "timestamp": "1658614107",
+  "formOptions": [
+    {
+      "question": "What sparked your initial interest in an open web?",
+      "description": "We welcome anecdotes, long form answers.",
+      "isRequired": true,
+      "Type": "input",
+      "Placeholder": ""
+    },
+    {
+      "question": "How much of your daily digital interactions do you believe are censorship resistant?",
+      "description": "Please select the closest option.",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        "10%",
+        "20%",
+        "30%",
+        "40%",
+        "50%",
+        "60%",
+        "70%",
+        "80%",
+        "90%",
+        "100%"
+      ]
+    },
+    {
+      "question": "How often do you fill out forms?",
+      "description": "Please select the closest option.",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        "Once a day",
+        "A few times a week",
+        "Once a week",
+        "Twice a month"
+      ]
+    },
+    {
+      "question": "Why is an open and censorship-free web important to you?",
+      "description": "",
+      "isRequired": true,
+      "Type": "input",
+      "Placeholder": ""
+    }
+  ]
+}
