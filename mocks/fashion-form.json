@@ -1,0 +1,54 @@
+{
+  "name": "Sneakerheadz",
+  "timestamp": "1658614107",
+  "formOptions": [
+    {
+      "question": "What sparked your interest in Sneakers, or more broadly, Fashion?",
+      "description": "a life experience, specific sneaker model, etc.",
+      "isRequired": true,
+      "Type": "input",
+      "Placeholder": ""
+    },
+    {
+      "question": "Do you consider yourself a sneakerhead?",
+      "description": "",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "question": "How often do you wear sneakers in real life?",
+      "description": "Please select the closest option.",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        "Once a day",
+        "A few times a week",
+        "Once a week",
+        "Twice a month"
+      ]
+    },
+    {
+      "question": "How often do you purchase digital collectibles?",
+      "description": "Please select the closest option.",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        "Once a day",
+        "A few times a week",
+        "Once a week",
+        "Twice a month"
+      ]
+    },
+    {
+      "question": "What would you like to see in a digital sneaker collection?",
+      "description": "",
+      "isRequired": true,
+      "Type": "input",
+      "Placeholder": ""
+    }
+  ]
+}
