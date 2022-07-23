@@ -9,13 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.4",
+    "@chakra-ui/react": "^2.2.4",
+    "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.9.3",
+    "framer-motion": "^6.5.1",
     "next": "12.2.3",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "18.0.6",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
