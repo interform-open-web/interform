@@ -1,7 +1,7 @@
 import { IconButton, Text, VStack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { FaGithub } from 'react-icons/fa'
-import styles from '../styles/Home.module.css'
+import styles from '@styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (
