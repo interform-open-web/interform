@@ -8,6 +8,11 @@ const cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use((_, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  next();
+})
 
 const formCache = new Cache(); // formAddr -> formData
 
@@ -16,9 +21,6 @@ app.get('/', (_, res) => {
 })
 
 app.post('/createForm', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-
   const { formName } = req.body;
 
   if (!formName) {
@@ -30,9 +32,6 @@ app.post('/createForm', (req, res) => {
 
 
 app.get('/:addr', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-
   const { params: { addr } } = req;
   const { formEntry } = req.body;
 
@@ -48,16 +47,15 @@ app.get('/:addr', (req, res) => {
 })
 
 app.post('/addEntry/:addr', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-
   const { params: { addr } } = req;
   if (!addr) {
     res.status(400).json({ msg: 'addr is required' });
     return;
   }
 
-  res.send('Hello World!')
+  res.status(200).json({
+    success: true,
+  });
 })
 
 
