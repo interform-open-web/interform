@@ -1,0 +1,23 @@
+{
+  "name": "interform-server",
+  "version": "1.0.0",
+  "description": "Read and write to interform. Powered by IPFS and Filecoin.",
+  "main": "api/index.js",
+  "engines": {
+    "node": "16.8.0"
+  },
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
