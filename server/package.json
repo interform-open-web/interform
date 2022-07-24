@@ -4,7 +4,7 @@
   "description": "Read and write to interform. Powered by IPFS and Filecoin.",
   "main": "api/index.js",
   "engines": {
-    "node": "16.8.0"
+    "node": "16.x"
   },
   "type": "module",
   "scripts": {
