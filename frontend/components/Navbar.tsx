@@ -17,7 +17,7 @@ export const NavBar = () => {
         Home
       </Button>
     </Link>
-    <Link href='/'>
+    <Link href='/builder'>
       <Button size="lg" variant="ghost" color="teal.800" >
         Build form
       </Button>

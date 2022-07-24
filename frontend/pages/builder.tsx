@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel } from "@chakra-ui/react";
-import { DragHandleIcon } from "@chakra-ui/icons";
+import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, List } from "@chakra-ui/react";
+import { CloseIcon, DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Form as FormikForm } from "@utils/FormElements";
 import { LongTextField, Multiselect, Radio, SelectField, SubmitButton, TextField } from "@utils/FormElements";
@@ -46,11 +46,6 @@ const elementMap = {
     type: "select",
     content: "Select Element",
   },
-  input: {
-    id: "input",
-    type: "input",
-    content: "Input Element",
-  },
   multi_select: {
     id: "multi_select",
     type: "multi_select",
@@ -64,7 +59,7 @@ const elementMap = {
   long_input: {
     id: "long_input",
     type: "long_input",
-    content: "Long Input Element",
+    content: "Long Response Element",
   },
   radio: {
     id: "radio",
@@ -75,7 +70,7 @@ const elementMap = {
 
 const formDataMap = {} as any;
 
-const paletteElements = ["select", "input", "multi_select", "short_text", "long_input", "radio"];
+const paletteElements = ["short_text", "long_input", "select", "multi_select", "radio"];
 
 const fetchNewId = () => Math.floor(Math.random() * 1000000).toString();
 
@@ -283,7 +278,24 @@ function renderFormElement(type: string, element: any, provided: any) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Text>{element.content}</Text>
+          <VStack w="100%">
+            <Text>{element.content}</Text>
+            <Text fontWeight="bold">{element.content}</Text>
+            <Input placeholder="Enter question" />
+            <Input placeholder="Enter description" />
+            <List spacing={3}>
+              <HStack>
+                <Input placeholder="Add option" />
+                <CloseIcon />
+              </HStack>
+            </List>
+            <FormControl display='flex' alignItems='center'>
+              <FormLabel htmlFor='is-required' mb='0'>
+                Required question?
+              </FormLabel>
+              <Switch id='is-required' />
+            </FormControl>
+          </VStack>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
@@ -296,10 +308,18 @@ function renderFormElement(type: string, element: any, provided: any) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Text>{element.content}</Text>
-          <div className="handle" {...provided.dragHandleProps}>
-            <DragHandleIcon />
-          </div>
+          <VStack w="100%">
+            <Text fontWeight="bold">{element.content}</Text>
+            <Input placeholder="Enter question" />
+            <Input placeholder="Enter description" />
+            <Input placeholder="Enter placeholder (optional)" />
+            <FormControl display='flex' alignItems='center'>
+              <FormLabel htmlFor='is-required' mb='0'>
+                Required question?
+              </FormLabel>
+              <Switch id='is-required' />
+            </FormControl>
+          </VStack>
         </HStack>
       );
     case "multi_select":
@@ -309,7 +329,7 @@ function renderFormElement(type: string, element: any, provided: any) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Text>{element.content}</Text>
+          <Text fontWeight="bold">{element.content}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
@@ -323,6 +343,7 @@ function renderFormElement(type: string, element: any, provided: any) {
           ref={provided.innerRef}
         >
           <VStack w="100%">
+            <Text fontWeight="bold">{element.content}</Text>
             <Input placeholder="Enter question" />
             <Input placeholder="Enter description" />
             <Input placeholder="Enter placeholder (optional)" />
