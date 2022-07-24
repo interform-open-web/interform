@@ -1,5 +1,5 @@
-import { Box, HStack, VStack } from "@chakra-ui/react";
-import { Form, LongTextField, Multiselect, Radio, SelectField, TextField } from "@utils/FormElements";
+import { Box, Button, HStack, VStack } from "@chakra-ui/react";
+import { Form, LongTextField, Multiselect, Radio, SelectField, SubmitButton, TextField } from "@utils/FormElements";
 import { useEffect, useState } from "react";
 import * as Yup from 'yup';
 
@@ -75,7 +75,7 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
       resetForm: any;
       setStatus: any;
     }) => {
-    console.log(values);
+    console.log('values', values);
     setSubmitting(false);
   }
 
@@ -94,6 +94,7 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
             </Box>
           ))}
         </VStack>
+        <SubmitButton />
       </Form>
     </div>
   );

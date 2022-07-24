@@ -7,7 +7,7 @@ import {
   ErrorMessage,
   useFormikContext,
 } from 'formik';
-import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio, Textarea } from '@chakra-ui/react';
+import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio, Textarea, Button } from '@chakra-ui/react';
 
 export function Form(props: any) {
   return (
@@ -129,6 +129,6 @@ export function SubmitButton(props: any) {
   const { isSubmitting } = useFormikContext();
 
   return (
-    <button type="submit" {...rest} disabled={isSubmitting}>{title}</button>
+    <Button type="submit" {...rest} disabled={isSubmitting}>Submit</Button>
   )
 }
