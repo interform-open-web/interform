@@ -1,12 +1,10 @@
-import express from 'express';
-const app = express();
-const port = 3000;
+require('dotenv').config();
 
-import Cache from '../utils/cache.js';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const app = require('express')();
+const bodyParser = require('body-parser')
+const cors = require('cors');
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -17,7 +15,7 @@ app.use((_, res, next) => {
   next();
 })
 
-import { addToIpfs, fetchFromIpfs } from '../utils/ipfs.js';
+const { addToIpfs, fetchFromIpfs } = require('../utils/ipfs.js');
 
 // const formCache = new Cache(); // formAddr -> formData
 
@@ -122,7 +120,7 @@ app.get('/api/entry/:cid', async (req, res) => {
 
 /* ------------ CONFIGS --------------- */
 // for vercel deployment
-export default app;
+module.exports = app;
 
 // for local testing
 const PORT = process.env.PORT || 8080;

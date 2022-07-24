@@ -1,4 +1,4 @@
-import * as ipfsClient from 'ipfs-http-client'
+const ipfsClient = require('ipfs-http-client');
 const projectId = '2CMrXu68HMgZmhsnet7Ve76JfOS';
 const projectSecret = 'f44e1c49fa7b74be938e9a3bb2aa1e20';
 
