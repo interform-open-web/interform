@@ -28,6 +28,8 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
       } else if (formItem.type === "multiselect") {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
+      } else {
+        _validationSchema[key] = Yup.string();
       }
 
       if (formItem.isRequired) {
