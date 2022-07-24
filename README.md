@@ -1,6 +1,6 @@
 # Interform
 
-Forms on the dentralized web. Powered by InterPlanetary File System and Filecoin.
+Forms on the decentralized web. Powered by InterPlanetary File System and Filecoin.
 
 InterForm is the web3 native form builder platform powered by Filecoin. It is the decentralized, censorship-resistant way to collect data. Think Google Forms or Airtable but on decentralized storage. It is web3 native by default - users may sign in with Ethereum to access gated forms. User data is never stored without consent. Interform is the bridge between centralized and decentralized data collection.
 It is a browser-based interface for quick and easy form submissions and building. Whether you need to collect data on an existing website or build a bespoke form for a website, InterForm will provide your users with the tools to interact with you in a completely censorship-resistant way. If the web2 DNS of the interform.app is banned or censored, form collectors can still self-host the forms using our open source code base and serve the IPFS files from anywhere in the world.
@@ -25,4 +25,4 @@ Built with Next.js + Chakra
   yarn install
   yarn start
 ```
-Build with Express.js
+Built with Express.js
