@@ -122,7 +122,7 @@ app.get('/entry/:cid', async (req, res) => {
 
 /* ------------ CONFIGS --------------- */
 // for vercel deployment
-module.exports = app;
+export default app;
 
 // for local testing
 const PORT = process.env.PORT || 8080;
