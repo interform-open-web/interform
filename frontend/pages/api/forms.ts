@@ -33,6 +33,7 @@ export default async function handler(
       result: {
         cid: formCid,
       },
+      message: "Form added successfully",
     })
   } else {
     res.status(400).json("Unable to handle request");
