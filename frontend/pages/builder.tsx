@@ -1,7 +1,7 @@
 import { useState } from "react";
 import data from "./data.json";
 import dynamic from "next/dynamic";
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, VStack, Text } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 
 const DragDropContext = dynamic(
@@ -44,18 +44,19 @@ const Builder = () => {
       return;
     }
 
-    const start = formData.columns[source.droppableId];
-    const finish = formData.columns[destination.droppableId];
+    const startColumn = formData.columns[source.droppableId];
+    const destColumn = formData.columns[destination.droppableId];
 
-    if (start === finish) {
+    // If moving order within the same column
+    if (startColumn === destColumn) {
       const column = formData.columns[source.droppableId];
-      const newTaskIds = Array.from(column.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
+      const newElementIds = Array.from(column.elementIds);
+      newElementIds.splice(source.index, 1);
+      newElementIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...column,
-        taskIds: newTaskIds,
+        elementIds: newElementIds,
       };
 
       setFormData({
@@ -68,28 +69,35 @@ const Builder = () => {
       return;
     }
 
-    // Moving from one list to another
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: startTaskIds,
-    };
+    // new elements
+    const newElements = JSON.parse(JSON.stringify(formData.elements));
 
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
+    // make copy of dragged element
+    const copiedElement = JSON.parse(
+      JSON.stringify(formData.elements[draggableId])
+    );
+    const copiedElementId = Number(Object.keys(formData.elements).length) + 1;
+    const newElementId = `element-${copiedElementId}`;
+    copiedElement.id = newElementId;
+
+    // add new element to new elements
+    newElements[copiedElement.id] = copiedElement;
+
+    const destElementIds = Array.from(destColumn.elementIds);
+    destElementIds.splice(destination.index, 0, copiedElement.id);
     const newFinish = {
-      ...finish,
-      taskIds: finishTaskIds,
+      ...destColumn,
+      elementIds: destElementIds,
     };
 
     const newState = {
-      ...formData,
+      elements: newElements,
       columns: {
         ...formData.columns,
-        [newStart.id]: newStart,
+        // [newStart.id]: newStart,
         [newFinish.id]: newFinish,
       },
+      columnOrder: formData.columnOrder,
     };
     setFormData(newState);
   }
@@ -99,11 +107,11 @@ const Builder = () => {
       <HStack>
         {formData.columnOrder.map((columnId: string) => {
           const column = formData.columns[columnId];
-          const tasks = column.taskIds.map(
-            (taskId: string) => formData.tasks[taskId]
+          const elements = column.elementIds.map(
+            (elementId: string) => formData.elements[elementId]
           );
 
-          return <Column key={column.id} column={column} tasks={tasks} />;
+          return <Column key={column.id} column={column} elements={elements} />;
         })}
       </HStack>
     </DragDropContext>
@@ -112,18 +120,24 @@ const Builder = () => {
 
 type ColumnProps = {
   column: any;
-  tasks: any;
+  elements: any;
 };
 
-const Column = ({ column, tasks }: ColumnProps) => {
+const Column = ({ column, elements }: ColumnProps) => {
   return (
     <VStack className="container">
       <div>{column.title}</div>
       <Droppable droppableId={column.id}>
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {tasks.map((task, idx) => (
-              <Task key={task.id} task={task} index={idx} />
+          <div
+            className={
+              column.id === "column-1" ? "sourceContainer" : "destContainer"
+            }
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {elements.map((element, idx) => (
+              <Element key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
           </div>
@@ -133,20 +147,26 @@ const Column = ({ column, tasks }: ColumnProps) => {
   );
 };
 
-const Task = ({ task, index }) => {
+const Element = ({ element, index }) => {
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={element.id} index={index}>
       {(provided) => (
-        <div
-          className="taskContainer"
+        <HStack
+          className="elementContainer"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
+          {/* <div
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        > */}
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
-          {task.content}
-        </div>
+          <Text>{element.content}</Text>
+          {/* </div> */}
+        </HStack>
       )}
     </Draggable>
   );

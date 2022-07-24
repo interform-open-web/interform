@@ -1,26 +1,21 @@
 {
-  "tasks": {
-    "task-1": { "id": "task-1", "content": "Take out the garbage" },
-    "task-2": { "id": "task-2", "content": "Watch my favorite show" },
-    "task-3": { "id": "task-3", "content": "Charge my phone" },
-    "task-4": { "id": "task-4", "content": "Cook dinner" }
+  "elements": {
+    "element-1": { "id": "element-1", "content": "Select Element" },
+    "element-2": { "id": "element-2", "content": "Input Element" },
+    "element-3": { "id": "element-3", "content": "Checkbox Element" },
+    "element-4": { "id": "element-4", "content": "Short Response Element" }
   },
   "columns": {
     "column-1": {
       "id": "column-1",
-      "title": "To do",
-      "taskIds": ["task-1", "task-2", "task-3", "task-4"]
+      "title": "Form Elements",
+      "elementIds": ["element-1", "element-2", "element-3", "element-4"]
     },
     "column-2": {
       "id": "column-2",
-      "title": "In progress",
-      "taskIds": []
-    },
-    "column-3": {
-      "id": "column-3",
-      "title": "Done",
-      "taskIds": []
+      "title": "Your Form",
+      "elementIds": []
     }
   },
-  "columnOrder": ["column-1", "column-2", "column-3"]
+  "columnOrder": ["column-1", "column-2"]
 }
