@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, List } from "@chakra-ui/react";
-import { CloseIcon, DragHandleIcon } from "@chakra-ui/icons";
+import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Form as FormikForm } from "@utils/FormElements";
-import { LongTextField, Multiselect, Radio, SelectField, SubmitButton, TextField } from "@utils/FormElements";
 import * as Yup from 'yup';
 import { Field } from "formik";
+import { AddOption } from "@components/BuilderElements";
 
 // {
 //     Type: “Select”,
@@ -283,12 +283,7 @@ function renderFormElement(type: string, element: any, provided: any) {
             <Text fontWeight="bold">{element.content}</Text>
             <Input placeholder="Enter question" />
             <Input placeholder="Enter description" />
-            <List spacing={3}>
-              <HStack>
-                <Input placeholder="Add option" />
-                <CloseIcon />
-              </HStack>
-            </List>
+            <AddOption />
             <FormControl display='flex' alignItems='center'>
               <FormLabel htmlFor='is-required' mb='0'>
                 Required question?
@@ -301,7 +296,7 @@ function renderFormElement(type: string, element: any, provided: any) {
           </div>
         </HStack>
       );
-    case "input":
+    case "multi_select":
       return (
         <HStack
           className="elementContainer"
@@ -312,7 +307,7 @@ function renderFormElement(type: string, element: any, provided: any) {
             <Text fontWeight="bold">{element.content}</Text>
             <Input placeholder="Enter question" />
             <Input placeholder="Enter description" />
-            <Input placeholder="Enter placeholder (optional)" />
+            <AddOption />
             <FormControl display='flex' alignItems='center'>
               <FormLabel htmlFor='is-required' mb='0'>
                 Required question?
@@ -320,16 +315,6 @@ function renderFormElement(type: string, element: any, provided: any) {
               <Switch id='is-required' />
             </FormControl>
           </VStack>
-        </HStack>
-      );
-    case "multi_select":
-      return (
-        <HStack
-          className="elementContainer"
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-        >
-          <Text fontWeight="bold">{element.content}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
@@ -367,8 +352,16 @@ function renderFormElement(type: string, element: any, provided: any) {
           ref={provided.innerRef}
         >
           <VStack w="100%">
+            <Text fontWeight="bold">{element.content}</Text>
             <Input placeholder="Enter question" />
-            <Input disabled />
+            <Input placeholder="Enter description" />
+            <AddOption />
+            <FormControl display='flex' alignItems='center'>
+              <FormLabel htmlFor='is-required' mb='0'>
+                Required question?
+              </FormLabel>
+              <Switch id='is-required' />
+            </FormControl>
           </VStack>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
