@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   resolve: {
     fallback: {
-        "fs": false
+      "fs": false
     },
   },
   webpack5: true,
@@ -13,6 +13,7 @@ const nextConfig = {
 
     return config;
   },
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;
