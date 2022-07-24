@@ -69,7 +69,6 @@ app.get('/api/form/:cid', async (req, res) => {
       cid,
       content,
     },
-    message: "Form added successfully",
   });
 })
 
