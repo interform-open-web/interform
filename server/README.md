@@ -1,4 +1,4 @@
-# Server
+# Inteform Server
 Powering stellar communications via IPFS.
 
 ## Adding a new public mirror

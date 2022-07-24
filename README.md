@@ -26,3 +26,7 @@ Built with Next.js + Chakra
   yarn start
 ```
 Built with Express.js
+Full API docs [here](/server/)
+
+## License
+[MIT License](LICENSE)
