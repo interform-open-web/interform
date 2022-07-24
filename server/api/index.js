@@ -21,14 +21,14 @@ import { addToIpfs, fetchFromIpfs } from '../utils/ipfs.js';
 
 // const formCache = new Cache(); // formAddr -> formData
 
-app.get('/', async (_, res) => {
+app.get('/api/', async (_, res) => {
   res.send('Hello Interform!');
 })
 
 /******* FORM-RELATED ROUTES ********/
 
 // create a new form
-app.post('/form', async (req, res) => {
+app.post('/api/form', async (req, res) => {
   console.log('req body', req.body);
   const { name, timestamp, formOptions } = req.body;
 
@@ -55,7 +55,7 @@ app.post('/form', async (req, res) => {
   })
 })
 
-app.get('/form/:cid', async (req, res) => {
+app.get('/api/form/:cid', async (req, res) => {
   const { params: { cid } } = req;
 
   if (!cid) {
@@ -77,7 +77,7 @@ app.get('/form/:cid', async (req, res) => {
 
 /******* ENTRY-RELATED ROUTES ********/
 
-app.post('/entry', async (req, res) => {
+app.post('/api/entry', async (req, res) => {
   const { formCid, response } = req.body;
   if (!formCid) {
     res.status(400).json({ msg: 'Form CID is required' });
@@ -101,7 +101,7 @@ app.post('/entry', async (req, res) => {
   });
 })
 
-app.get('/entry/:cid', async (req, res) => {
+app.get('/api/entry/:cid', async (req, res) => {
   const { params: { cid } } = req;
 
   if (!cid) {
