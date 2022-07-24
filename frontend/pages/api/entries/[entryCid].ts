@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-const { fetchFromIpfs } = require('../utils/ipfs.js');
+const { fetchFromIpfs } = require('../../utils/ipfs.ts');
 
 // This handler supports both GET and POST requests.
 // GET will return the specified cid.

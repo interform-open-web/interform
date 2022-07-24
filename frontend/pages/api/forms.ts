@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-const { addToIpfs } = require('../utils/ipfs.js');
+const { addToIpfs } = require('../utils/ipfs.ts');
 
 // This handler supports both GET and POST requests.
 // TODO: GET will return all forms.
