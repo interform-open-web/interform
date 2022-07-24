@@ -7,39 +7,6 @@ import * as Yup from 'yup';
 import { Field } from "formik";
 import { AddOption } from "@components/BuilderElements";
 
-// {
-//     Type: “Select”,
-//     Question: “question_text”,
-//     Description: “”,
-//     isRequired: boolean,
-//     Options: [“text1”, “text2”, “text3”...],
-//     allowOther: boolean,
-//     Option_image: [“src_link1”, “src_link2”]
-//     }
-
-// const elementMap = {
-//   "element-1": {
-//     id: "element-1",
-//     type: "select",
-//     content: "Select Element",
-//   },
-//   "element-2": {
-//     id: "element-2",
-//     type: "input",
-//     content: "Input Element",
-//   },
-//   "element-3": {
-//     id: "element-3",
-//     type: "checkbox",
-//     content: "Checkbox Element",
-//   },
-//   "element-4": {
-//     id: "element-4",
-//     type: "short_text",
-//     content: "Short Response Element",
-//   },
-// };
-
 const elementMap = {
   select: {
     id: "select",
@@ -374,3 +341,36 @@ function renderFormElement(type: string, element: any, provided: any) {
 }
 
 export default Builder;
+
+// {
+//     Type: “Select”,
+//     Question: “question_text”,
+//     Description: “”,
+//     isRequired: boolean,
+//     Options: [“text1”, “text2”, “text3”...],
+//     allowOther: boolean,
+//     Option_image: [“src_link1”, “src_link2”]
+//     }
+
+// const elementMap = {
+//   "element-1": {
+//     id: "element-1",
+//     type: "select",
+//     content: "Select Element",
+//   },
+//   "element-2": {
+//     id: "element-2",
+//     type: "input",
+//     content: "Input Element",
+//   },
+//   "element-3": {
+//     id: "element-3",
+//     type: "checkbox",
+//     content: "Checkbox Element",
+//   },
+//   "element-4": {
+//     id: "element-4",
+//     type: "short_text",
+//     content: "Short Response Element",
+//   },
+// };
