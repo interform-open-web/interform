@@ -1,12 +1,15 @@
-const express = require('express')
-const app = express()
-const port = 3000
+import express from 'express';
+const app = express();
+const port = 3000;
 
-const Cache = require('../cache');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import Cache from '../utils/cache.js';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(cors());
 app.use((_, res, next) => {
   res.setHeader('Content-Type', 'application/json');
@@ -14,50 +17,108 @@ app.use((_, res, next) => {
   next();
 })
 
-const formCache = new Cache(); // formAddr -> formData
+import { addToIpfs, fetchFromIpfs } from '../utils/ipfs.js';
 
-app.get('/', (_, res) => {
-  res.send('Hello World!')
+// const formCache = new Cache(); // formAddr -> formData
+
+app.get('/', async (_, res) => {
+  res.send('Hello Interform!');
 })
 
-app.post('/createForm', (req, res) => {
-  const { formName } = req.body;
+/******* FORM-RELATED ROUTES ********/
 
-  if (!formName) {
-    res.status(400).json({ msg: 'formName is required' });
-    return;
-  }
-  res.send('Hello World!')
-})
+// create a new form
+app.post('/form', async (req, res) => {
+  console.log('req body', req.body);
+  const { name, timestamp, formOptions } = req.body;
 
+  // can do some validation here, but otherwise proceed to saving to ipfs
 
-app.get('/:addr', (req, res) => {
-  const { params: { addr } } = req;
-  const { formEntry } = req.body;
-
-  if (!addr) {
-    res.status(400).json({ msg: 'addr is required' });
+  if (!name || !formOptions) {
+    console.log('name', name, 'formoptions', formOptions);
+    res.status(400).json({ msg: 'Invalid form' });
     return;
   }
 
-  if (!formEntry) {
-    res.status(400).json({ msg: 'formEntry is required in the body' });
-    return;
-  }
-})
-
-app.post('/addEntry/:addr', (req, res) => {
-  const { params: { addr } } = req;
-  if (!addr) {
-    res.status(400).json({ msg: 'addr is required' });
-    return;
-  }
+  // add entry to ipfs
+  let formCid = await addToIpfs({
+    name,
+    timestamp: timestamp || Date.now(),
+    formOptions,
+  });
 
   res.status(200).json({
     success: true,
+    result: {
+      cid: formCid,
+    },
+  })
+})
+
+app.get('/form/:cid', async (req, res) => {
+  const { params: { cid } } = req;
+
+  if (!cid) {
+    res.status(400).json({ msg: 'Cid is required' });
+    return;
+  }
+
+  let content = await fetchFromIpfs(cid);
+
+  res.status(200).json({
+    success: true,
+    result: {
+      cid,
+      content,
+    },
+    message: "Form added successfully",
   });
 })
 
+/******* ENTRY-RELATED ROUTES ********/
+
+app.post('/entry', async (req, res) => {
+  const { formCid, response } = req.body;
+  if (!formCid) {
+    res.status(400).json({ msg: 'Form CID is required' });
+    return;
+  }
+
+  // add entry to ipfs
+  let entryCid = await addToIpfs({
+    formCid,
+    response,
+  });
+
+  // flexible on the shape of this
+  res.status(200).json({
+    success: true,
+    result: {
+      entryCid,
+      formCid,
+    },
+    message: "Entry added successfully",
+  });
+})
+
+app.get('/entry/:cid', async (req, res) => {
+  const { params: { cid } } = req;
+
+  if (!cid) {
+    res.status(400).json({ msg: 'cid is required' });
+    return;
+  }
+
+  let content = await fetchFromIpfs(cid);
+
+  res.status(200).json({
+    success: true,
+    result: {
+      cid,
+      content,
+    },
+  });
+})
 
 app.listen(port, () => {
   console.log(`Interform listening on port ${port}`)

@@ -6,6 +6,7 @@
   "engines": {
     "node": "16.8.0"
   },
+  "type": "module",
   "scripts": {
     "start": "node api/index.js"
   },
@@ -16,9 +17,13 @@
     "axios": "^0.25.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "datastore-core": "^7.0.2",
     "dotenv": "^15.0.0",
     "express": "^4.17.1",
     "ipfs-http-client": "^57.0.3",
     "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "ipfs-core": "^0.15.4"
   }
 }
