@@ -22,13 +22,13 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
       if (formItem.type === "input") {
         _validationSchema[key] = Yup.string();
       } else if (formItem.type === "longinput") {
-        _validationSchema[key] = Yup.string().email()
+        _validationSchema[key] = Yup.string();
       } else if (formItem.type === "email") {
         _validationSchema[key] = Yup.string().email()
       } else if (formItem.type === "select") {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
       } else if (formItem.type === "multiselect") {
-        _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
+        _validationSchema[key] = Yup.array();
       } else if (formItem.type === "radio") {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
       } else {
@@ -76,7 +76,7 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
       resetForm: any;
       setStatus: any;
     }) => {
-    console.log('values', values);
+    console.log('values', values)
     setSubmitting(false);
   }
 
@@ -85,7 +85,7 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
       <Form
         enableReinitialize
         initialValues={formData}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         <VStack gap={2} paddingBottom={2}>

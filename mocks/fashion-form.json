@@ -15,15 +15,15 @@
       "label": "isSneakerhead",
       "description": "",
       "isRequired": true,
-      "type": "select",
+      "type": "radio",
       "options": [
         {
-          "label": "yes",
-          "value": "Yes"
+          "label": "Yes",
+          "value": "yes"
         },
         {
-          "label": "no",
-          "value": "No"
+          "label": "No",
+          "value": "no"
         }
       ]
     },
