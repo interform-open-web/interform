@@ -7,7 +7,7 @@
       "label": "interests",
       "description": "a life experience, specific sneaker model, etc.",
       "isRequired": true,
-      "type": "input",
+      "type": "longinput",
       "placeholder": ""
     },
     {

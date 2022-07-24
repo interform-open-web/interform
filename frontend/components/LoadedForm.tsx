@@ -1,9 +1,9 @@
 import { Box, HStack, VStack } from "@chakra-ui/react";
-import { Form, Multiselect, Radio, SelectField, TextField } from "@utils/FormElements";
+import { Form, LongTextField, Multiselect, Radio, SelectField, TextField } from "@utils/FormElements";
 import { useEffect, useState } from "react";
 import * as Yup from 'yup';
 
-export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
+export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any }) => {
   const [formData, setFormData] = useState({});
   const [validationSchema, setValidationSchema] = useState({});
 
@@ -20,6 +20,8 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
 
       if (formItem.type === "input") {
         _validationSchema[key] = Yup.string();
+      } else if (formItem.type === "longinput") {
+        _validationSchema[key] = Yup.string().email()
       } else if (formItem.type === "email") {
         _validationSchema[key] = Yup.string().email()
       } else if (formItem.type === "select") {
@@ -43,23 +45,27 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
 
   const getFormElement = (elementSchema: any) => {
     if (elementSchema.type === "input") {
-      return <TextField type="text" {...elementSchema} />
+      return <TextField type="text" {...elementSchema} style={style} />
+    }
+
+    if (elementSchema.type === "longinput") {
+      return <LongTextField type="text" {...elementSchema} style={style} />
     }
 
     if (elementSchema.type === "email") {
-      return <TextField type="email" {...elementSchema} />
+      return <TextField type="email" {...elementSchema} style={style} />
     }
 
     if (elementSchema.type === "select") {
-      return <SelectField  {...elementSchema} />
+      return <SelectField  {...elementSchema} style={style} />
     }
 
     if (elementSchema.type === "multiselect") {
-      return <Multiselect  {...elementSchema} />
+      return <Multiselect  {...elementSchema} style={style} />
     }
 
     if (elementSchema.type === "radio") {
-      return <Radio  {...elementSchema} />
+      return <Radio  {...elementSchema} style={style} />
     }
   }
 

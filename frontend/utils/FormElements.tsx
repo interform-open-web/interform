@@ -7,7 +7,7 @@ import {
   ErrorMessage,
   useFormikContext,
 } from 'formik';
-import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio } from '@chakra-ui/react';
+import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio, Textarea } from '@chakra-ui/react';
 
 export function Form(props: any) {
   return (
@@ -37,6 +37,28 @@ export function TextField(props: any) {
         {...rest}
       >
       </Input>
+      <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
+    </>
+  )
+}
+
+export function LongTextField(props: any) {
+  const { question, description, label, placeholder, isRequired, ...rest } = props;
+  return (
+    <>
+      <HStack>
+        <h3>{question}</h3>
+        {isRequired && <Text color="red.400">*</Text>}
+      </HStack>      {description && <Text color="gray.600">{description}</Text>}
+      <Textarea
+        className="form-control"
+        type="text"
+        name={label}
+        id={label}
+        placeholder={placeholder || ""}
+        {...rest}
+      >
+      </Textarea>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )

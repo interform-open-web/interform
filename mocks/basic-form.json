@@ -7,7 +7,7 @@
       "label": "initialInterest",
       "description": "We welcome anecdotes, long form answers.",
       "isRequired": false,
-      "type": "input",
+      "type": "longinput",
       "placeholder": ""
     },
     {
