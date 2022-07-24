@@ -16,7 +16,7 @@ export default async function handler(
       return;
     }
 
-    let content = await fetchFromIpfs(formCid);
+    let content = await fetchFromIpfs(formCid as string);
 
     res.status(200).json({
       success: true,

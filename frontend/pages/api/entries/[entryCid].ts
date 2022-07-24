@@ -15,9 +15,9 @@ export default async function handler(
       res.status(400).json({ msg: 'entryCid is required' });
       return;
     }
-  
-    let content = await fetchFromIpfs(entryCid);
-  
+
+    let content = await fetchFromIpfs(entryCid as string);
+
     res.status(200).json({
       success: true,
       result: {

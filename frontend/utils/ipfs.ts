@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import { create } from 'ipfs-http-client';
 
+dotenv.config();
 const projectId = process.env.INFURA_PROJECT_ID;
 const projectSecret = process.env.INFURA_PROJECT_SECRET;
 
@@ -49,3 +49,6 @@ export const hasJsonStructure = (str: string) => {
   }
 };
 
+const App = () => { }
+
+export default App
