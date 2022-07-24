@@ -1,0 +1,99 @@
+{
+  "name": "Feedback Form",
+  "timestamp": 1658620369907,
+  "formOptions": [
+    {
+      "question": "What sparked your initial interest in an open web?",
+      "label": "initialInterest",
+      "description": "We welcome anecdotes, long form answers.",
+      "isRequired": false,
+      "type": "longinput",
+      "placeholder": ""
+    },
+    {
+      "question": "How much of your daily digital interactions do you believe are censorship resistant?",
+      "label": "digitalInteractionsCensored",
+      "isRequired": true,
+      "type": "radio",
+      "options": [
+        {
+          "label": "10%",
+          "value": "10%"
+        },
+        {
+          "label": "20%",
+          "value": "20%"
+        },
+        {
+          "label": "30%",
+          "value": "30%"
+        },
+        {
+          "label": "40%",
+          "value": "40%"
+        },
+        {
+          "label": "50%",
+          "value": "50%"
+        },
+        {
+          "label": "60%",
+          "value": "60%"
+        },
+        {
+          "label": "70%",
+          "value": "70%"
+        },
+        {
+          "label": "80%",
+          "value": "80%"
+        },
+        {
+          "label": "90%",
+          "value": "90%"
+        },
+        {
+          "label": "100%",
+          "value": "100%"
+        }
+      ]
+    },
+    {
+      "question": "How often do you fill out forms?",
+      "label": "howOftenForm",
+      "description": "Please select the closest option.",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        {
+          "label": "Once a day",
+          "value": "daily"
+        },
+        {
+          "label": "A few times a week",
+          "value": "fewWeekly"
+        },
+        {
+          "label": "Once a week",
+          "value": "weekly"
+        },
+        {
+          "label": "Twice a month",
+          "value": "bimonthly"
+        },
+        {
+          "label": "Once a month",
+          "value": "monthly"
+        }
+      ]
+    },
+    {
+      "question": "Why is an open and censorship-free web important to you?",
+      "label": "whyOpenWeb",
+      "description": "",
+      "isRequired": true,
+      "type": "input",
+      "placeholder": ""
+    }
+  ]
+}

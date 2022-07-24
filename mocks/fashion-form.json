@@ -1,0 +1,122 @@
+{
+  "name": "Sneakerheadz",
+  "timestamp": 1658620369907,
+  "formOptions": [
+    {
+      "question": "What sparked your interest in Sneakers, or more broadly, Fashion?",
+      "label": "interests",
+      "description": "a life experience, specific sneaker model, etc.",
+      "isRequired": true,
+      "type": "longinput",
+      "placeholder": ""
+    },
+    {
+      "question": "Do you consider yourself a sneakerhead?",
+      "label": "isSneakerhead",
+      "description": "",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        {
+          "label": "yes",
+          "value": "Yes"
+        },
+        {
+          "label": "no",
+          "value": "No"
+        }
+      ]
+    },
+    {
+      "question": "How often do you wear sneakers in real life?",
+      "description": "Please select the closest option.",
+      "label": "wearCadence",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        {
+          "label": "Once a day",
+          "value": "daily"
+        },
+        {
+          "label": "A few times a week",
+          "value": "fewWeekly"
+        },
+        {
+          "label": "Once a week",
+          "value": "weekly"
+        },
+        {
+          "label": "Twice a month",
+          "value": "bimonthly"
+        },
+        {
+          "label": "Once a month",
+          "value": "monthly"
+        }
+      ]
+    },
+    {
+      "question": "How often do you purchase digital collectibles?",
+      "description": "Please select the closest option.",
+      "label": "purchaseCadence",
+      "isRequired": true,
+      "type": "select",
+      "options": [
+        {
+          "label": "Once a day",
+          "value": "daily"
+        },
+        {
+          "label": "A few times a week",
+          "value": "fewWeekly"
+        },
+        {
+          "label": "Once a week",
+          "value": "weekly"
+        },
+        {
+          "label": "Twice a month",
+          "value": "bimonthly"
+        },
+        {
+          "label": "Once a month",
+          "value": "monthly"
+        }
+      ]
+    },
+    {
+      "question": "What type of digital collectibles do you interact with?",
+      "description": "Select all that apply.",
+      "label": "digitalCollectibles",
+      "isRequired": true,
+      "type": "multiselect",
+      "options": [
+        {
+          "label": "NFTs",
+          "value": "nfts"
+        },
+        {
+          "label": "In-game Assets",
+          "value": "inGameAssets"
+        },
+        {
+          "label": "Digital Fashion",
+          "value": "digitalFashion"
+        },
+        {
+          "label": "On-chain passes",
+          "value": "onChainPasses"
+        }
+      ]
+    },
+    {
+      "question": "What would you like to see in a digital sneaker collection?",
+      "label": "openEndedPreference",
+      "description": "",
+      "isRequired": true,
+      "Type": "input",
+      "placeholder": ""
+    }
+  ]
+}
