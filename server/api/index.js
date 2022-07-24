@@ -120,6 +120,12 @@ app.get('/entry/:cid', async (req, res) => {
   });
 })
 
-app.listen(port, () => {
-  console.log(`Interform listening on port ${port}`)
+/* ------------ CONFIGS --------------- */
+// for vercel deployment
+module.exports = app;
+
+// for local testing
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Interform listening on port ${PORT}`)
 })
