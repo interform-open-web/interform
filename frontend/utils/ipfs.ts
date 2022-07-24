@@ -28,7 +28,7 @@ export const fetchFromIpfs = async (cid: string) => {
   const resp = await ipfs.cat(cid);
   let content: any = [];
   for await (const chunk of resp) {
-    content = [...content, ...chunk];
+    content = content.concat(chunk);
   }
   const raw = Buffer.from(content).toString('utf8');
 
