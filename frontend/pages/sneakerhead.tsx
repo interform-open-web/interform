@@ -1,7 +1,7 @@
 import { Center, Container, Text, VStack } from "@chakra-ui/react";
 import { LoadedForm } from "@components/LoadedForm";
 import { NextPage } from "next"
-import FashionFormData from '../../mocks/fashion-form.json';
+import FashionFormData from '../mocks/fashion-form.json';
 
 const FashionForm: NextPage = () => {
   const formStructure = FashionFormData;

@@ -1,7 +1,7 @@
 import { Center, Container, Text, VStack } from "@chakra-ui/react";
 import { LoadedForm } from "@components/LoadedForm";
 import { NextPage } from "next"
-import FormData from '../../mocks/basic-form.json';
+import FormData from '../mocks/basic-form.json';
 
 const Censor: NextPage = () => {
   const formStructure = FormData;
