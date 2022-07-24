@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, List, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
-import { Form as FormikForm } from "@utils/FormElements";
+import { Form as CustomForm } from "@utils/FormElements";
 import * as Yup from 'yup';
 import { Field } from "formik";
 import { AddOption } from "@components/BuilderElements";
@@ -189,7 +189,7 @@ const Form = ({ elements }: ColumnProps) => {
   };
 
   return (
-    <FormikForm
+    <CustomForm
       enableReinitialize
       initialValues={formData}
       validationSchema={validationSchema}
@@ -227,7 +227,7 @@ const Form = ({ elements }: ColumnProps) => {
       </VStack>
       <VStack alignItems="end">
         {creatingForm ?
-          <Button onClick={handleFormCreate} leftIcon={<Spinner />} disabled>
+          <Button type="submit" onClick={handleFormCreate} leftIcon={<Spinner />} disabled>
             Create form
           </Button>
           :
@@ -236,7 +236,7 @@ const Form = ({ elements }: ColumnProps) => {
           </Button>
         }
       </VStack>
-    </FormikForm >
+    </CustomForm >
   );
 };
 
