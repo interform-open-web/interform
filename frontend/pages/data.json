@@ -1,21 +1,31 @@
 {
   "elements": {
-    "element-1": { "id": "element-1", "content": "Select Element" },
-    "element-2": { "id": "element-2", "content": "Input Element" },
-    "element-3": { "id": "element-3", "content": "Checkbox Element" },
-    "element-4": { "id": "element-4", "content": "Short Response Element" }
-  },
-  "columns": {
-    "column-1": {
-      "id": "column-1",
-      "title": "Form Elements",
-      "elementIds": ["element-1", "element-2", "element-3", "element-4"]
+    "select": {
+      "id": "select",
+      "type": "select",
+      "content": "Select Element"
     },
-    "column-2": {
-      "id": "column-2",
-      "title": "Your Form",
-      "elementIds": []
+    "input": {
+      "id": "input",
+      "type": "input",
+      "content": "Input Element"
+    },
+    "checkbox": {
+      "id": "checkbox",
+      "type": "checkbox",
+      "content": "Checkbox Element"
+    },
+    "short_resp": {
+      "id": "short_resp",
+      "type": "short_resp",
+      "content": "Short Response Element"
     }
   },
-  "columnOrder": ["column-1", "column-2"]
+  "palette": {
+    "elementIds": ["select", "input", "checkbox", "short_resp"]
+  },
+  "form": {
+    "elementIds": []
+  },
+  "columnOrder": ["palette", "form"]
 }

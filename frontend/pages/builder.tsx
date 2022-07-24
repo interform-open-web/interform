@@ -1,34 +1,73 @@
 import { useState } from "react";
-import data from "./data.json";
-import dynamic from "next/dynamic";
-import { HStack, VStack, Text } from "@chakra-ui/react";
+import { HStack, VStack, Text, Input } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
+import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 
-const DragDropContext = dynamic(
-  async () => {
-    const mod = await import("react-beautiful-dnd");
-    return mod.DragDropContext;
-  },
-  { ssr: false }
-);
+// {
+//     Type: “Select”,
+//     Question: “question_text”,
+//     Description: “”,
+//     isRequired: boolean,
+//     Options: [“text1”, “text2”, “text3”...],
+//     allowOther: boolean,
+//     Option_image: [“src_link1”, “src_link2”]
+//     }
 
-const Droppable = dynamic(
-  async () => {
-    const mod = await import("react-beautiful-dnd");
-    return mod.Droppable;
+// const elementMap = {
+//   "element-1": {
+//     id: "element-1",
+//     type: "select",
+//     content: "Select Element",
+//   },
+//   "element-2": {
+//     id: "element-2",
+//     type: "input",
+//     content: "Input Element",
+//   },
+//   "element-3": {
+//     id: "element-3",
+//     type: "checkbox",
+//     content: "Checkbox Element",
+//   },
+//   "element-4": {
+//     id: "element-4",
+//     type: "short_text",
+//     content: "Short Response Element",
+//   },
+// };
+
+const elementMap = {
+  select: {
+    id: "select",
+    type: "select",
+    content: "Select Element",
   },
-  { ssr: false }
-);
-const Draggable = dynamic(
-  async () => {
-    const mod = await import("react-beautiful-dnd");
-    return mod.Draggable;
+  input: {
+    id: "input",
+    type: "input",
+    content: "Input Element",
   },
-  { ssr: false }
-);
+  checkbox: {
+    id: "checkbox",
+    type: "checkbox",
+    content: "Checkbox Element",
+  },
+  short_text: {
+    id: "short_text",
+    type: "short_text",
+    content: "Short Response Element",
+  },
+};
+
+const formDataMap = {} as any;
+
+const paletteElements = ["select", "input", "checkbox", "short_text"];
+
+const fetchNewId = () => Math.floor(Math.random() * 1000000).toString();
 
 const Builder = () => {
-  const [formData, setFormData] = useState<any>(data);
+  const [elements, setElements] = useState<any>(elementMap);
+  const [formElements, setFormElements] = useState<string[]>([]);
 
   function onDragEnd(result) {
     const { destination, source, draggableId } = result;
@@ -44,100 +83,57 @@ const Builder = () => {
       return;
     }
 
-    const startColumn = formData.columns[source.droppableId];
-    const destColumn = formData.columns[destination.droppableId];
-
     // If moving order within the same column
-    if (startColumn === destColumn) {
-      const column = formData.columns[source.droppableId];
-      const newElementIds = Array.from(column.elementIds);
-      newElementIds.splice(source.index, 1);
-      newElementIds.splice(destination.index, 0, draggableId);
+    if (source.droppableId === "form" && destination.droppableId === "form") {
+      const newFormElements = Array.from(formElements);
+      newFormElements.splice(source.index, 1); // remove
+      newFormElements.splice(destination.index, 0, draggableId); // insert
 
-      const newColumn = {
-        ...column,
-        elementIds: newElementIds,
-      };
-
-      setFormData({
-        ...formData,
-        columns: {
-          ...formData.columns,
-          [newColumn.id]: newColumn,
-        },
-      });
+      setFormElements(newFormElements);
       return;
     }
 
-    // new elements
-    const newElements = JSON.parse(JSON.stringify(formData.elements));
+    const copiedElement = { ...elements[draggableId], id: fetchNewId() };
 
-    // make copy of dragged element
-    const copiedElement = JSON.parse(
-      JSON.stringify(formData.elements[draggableId])
-    );
-    const copiedElementId = Number(Object.keys(formData.elements).length) + 1;
-    const newElementId = `element-${copiedElementId}`;
-    copiedElement.id = newElementId;
+    // add element to form map
+    formDataMap[copiedElement.id] = copiedElement;
 
-    // add new element to new elements
-    newElements[copiedElement.id] = copiedElement;
-
-    const destElementIds = Array.from(destColumn.elementIds);
-    destElementIds.splice(destination.index, 0, copiedElement.id);
-    const newFinish = {
-      ...destColumn,
-      elementIds: destElementIds,
-    };
-
-    const newState = {
-      elements: newElements,
-      columns: {
-        ...formData.columns,
-        // [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-      columnOrder: formData.columnOrder,
-    };
-    setFormData(newState);
+    // add element to form elements and set state
+    const formElementIds = Array.from(formElements);
+    formElementIds.splice(destination.index, 0, copiedElement.id);
+    setFormElements(formElementIds);
   }
+
+  const pElements = paletteElements.map((id: string) => elements[id]);
+  const fElements = formElements.map((id) => formDataMap[id]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <HStack>
-        {formData.columnOrder.map((columnId: string) => {
-          const column = formData.columns[columnId];
-          const elements = column.elementIds.map(
-            (elementId: string) => formData.elements[elementId]
-          );
-
-          return <Column key={column.id} column={column} elements={elements} />;
-        })}
+      <HStack className="container">
+        <Palette key="palette" elements={pElements} />
+        <Form key="form" elements={fElements} />
       </HStack>
     </DragDropContext>
   );
 };
 
 type ColumnProps = {
-  column: any;
   elements: any;
 };
 
-const Column = ({ column, elements }: ColumnProps) => {
+const Palette = ({ elements }: ColumnProps) => {
   return (
-    <VStack className="container">
-      <div>{column.title}</div>
-      <Droppable droppableId={column.id}>
+    <VStack className="paletteContainer">
+      <div>{"Palette"}</div>
+      <Droppable droppableId={"palette"}>
         {(provided) => (
           <div
-            className={
-              column.id === "column-1" ? "sourceContainer" : "destContainer"
-            }
+            className="paletteDroppableContainer"
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
             {elements.map((element, idx) => (
-              <Element key={element.id} element={element} index={idx} />
+              <PaletteElement key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
           </div>
@@ -147,7 +143,29 @@ const Column = ({ column, elements }: ColumnProps) => {
   );
 };
 
-const Element = ({ element, index }) => {
+const Form = ({ elements }: ColumnProps) => {
+  return (
+    <VStack className="formContainer">
+      <div>{"Your Form"}</div>
+      <Droppable droppableId={"form"}>
+        {(provided) => (
+          <div
+            className="formDroppableContainer"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {elements.map((element, idx) => (
+              <FormElement key={element.id} element={element} index={idx} />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </VStack>
+  );
+};
+
+const PaletteElement = ({ element, index }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
       {(provided) => (
@@ -156,11 +174,6 @@ const Element = ({ element, index }) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          {/* <div
-          className="elementContainer"
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-        > */}
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
@@ -171,5 +184,75 @@ const Element = ({ element, index }) => {
     </Draggable>
   );
 };
+
+const FormElement = ({ element, index }) => {
+  return (
+    <Draggable draggableId={element.id} index={index}>
+      {(provided) => renderFormElement(element.type, provided)}
+    </Draggable>
+  );
+};
+
+function renderFormElement(type: string, provided: any) {
+  switch (type) {
+    case "select":
+      return (
+        <HStack
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <Text>{element.content}</Text>
+          <div className="handle" {...provided.dragHandleProps}>
+            <DragHandleIcon />
+          </div>
+        </HStack>
+      );
+    case "input":
+      return (
+        <HStack
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <Text>{element.content}</Text>
+          <div className="handle" {...provided.dragHandleProps}>
+            <DragHandleIcon />
+          </div>
+        </HStack>
+      );
+    case "checkbox":
+      return (
+        <HStack
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <Text>{element.content}</Text>
+          <div className="handle" {...provided.dragHandleProps}>
+            <DragHandleIcon />
+          </div>
+        </HStack>
+      );
+    case "short_text":
+      return (
+        <HStack
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <VStack w="100%">
+            <Input placeholder="Enter question" />
+            <Input disabled />
+          </VStack>
+          <div className="handle" {...provided.dragHandleProps}>
+            <DragHandleIcon />
+          </div>
+        </HStack>
+      );
+    default:
+      return <div></div>;
+  }
+}
 
 export default Builder;
