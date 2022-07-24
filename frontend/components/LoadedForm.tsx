@@ -1,4 +1,4 @@
-import { Box, Button, HStack, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { Form, LongTextField, Multiselect, Radio, SelectField, SubmitButton, TextField } from "@utils/FormElements";
 import { useEffect, useState } from "react";
 import * as Yup from 'yup';
@@ -81,22 +81,20 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
   }
 
   return (
-    <div className="App">
-      <Form
-        enableReinitialize
-        initialValues={formData}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        <VStack gap={2} paddingBottom={2}>
-          {formSchema.map((item: any, idx: number) => (
-            <Box key={idx} width="100%" >
-              {getFormElement(item)}
-            </Box>
-          ))}
-        </VStack>
-        <SubmitButton />
-      </Form>
-    </div>
+    <Form
+      enableReinitialize
+      initialValues={formData}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      <VStack gap={2} paddingBottom={2}>
+        {formSchema.map((item: any, idx: number) => (
+          <Box key={idx} width="100%" >
+            {getFormElement(item)}
+          </Box>
+        ))}
+      </VStack>
+      <SubmitButton />
+    </Form>
   );
 }

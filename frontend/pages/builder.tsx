@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { HStack, VStack, Text, Input, Box, Stack } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
+import { Form as FormikForm } from "@utils/FormElements";
+import { LongTextField, Multiselect, Radio, SelectField, SubmitButton, TextField } from "@utils/FormElements";
+import * as Yup from 'yup';
+import { Field } from "formik";
 
 // {
 //     Type: “Select”,
@@ -47,9 +51,9 @@ const elementMap = {
     type: "input",
     content: "Input Element",
   },
-  checkbox: {
-    id: "checkbox",
-    type: "checkbox",
+  multi_select: {
+    id: "multi_select",
+    type: "multi_select",
     content: "Checkbox Element",
   },
   short_text: {
@@ -57,11 +61,21 @@ const elementMap = {
     type: "short_text",
     content: "Short Response Element",
   },
+  long_input: {
+    id: "long_input",
+    type: "long_input",
+    content: "Long Input Element",
+  },
+  radio: {
+    id: "radio",
+    type: "radio",
+    content: "Radio Element",
+  },
 };
 
 const formDataMap = {} as any;
 
-const paletteElements = ["select", "input", "checkbox", "short_text"];
+const paletteElements = ["select", "input", "multi_select", "short_text", "long_input", "radio"];
 
 const fetchNewId = () => Math.floor(Math.random() * 1000000).toString();
 
@@ -126,7 +140,8 @@ type ColumnProps = {
 const Palette = ({ elements }: ColumnProps) => {
   return (
     <VStack className="paletteContainer">
-      <div>{"Palette"}</div>
+      <h1>Form Elements</h1>
+      <Text>Pick elements to add to your form</Text>
       <Droppable droppableId={"palette"}>
         {(provided) => (
           <div
@@ -146,24 +161,89 @@ const Palette = ({ elements }: ColumnProps) => {
 };
 
 const Form = ({ elements }: ColumnProps) => {
+  const [formSchema, setFormSchema] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [validationSchema, setValidationSchema] = useState({});
+
+  useEffect(() => {
+    if (formSchema.length === 0) { return; }
+    initForm(formSchema);
+  }, [formSchema]);
+
+  const initForm = (formSchema: any) => {
+    let _formData = {} as any;
+    let _validationSchema = {} as any;
+
+    for (var formItem of formSchema) {
+      let key = formItem.label;
+      _formData[key] = "";
+
+      if (formItem.type === "input") {
+        _validationSchema[key] = Yup.string();
+      } else if (formItem.type === "longinput") {
+        _validationSchema[key] = Yup.string();
+      } else if (formItem.type === "email") {
+        _validationSchema[key] = Yup.string().email()
+      } else if (formItem.type === "select") {
+        _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
+      } else if (formItem.type === "multiselect") {
+        _validationSchema[key] = Yup.array();
+      } else if (formItem.type === "radio") {
+        _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
+      } else {
+        _validationSchema[key] = Yup.string();
+      }
+
+      if (formItem.isRequired) {
+        _validationSchema[key] = _validationSchema[key].required('Required');
+      }
+    }
+
+    setFormData(_formData);
+    setValidationSchema(Yup.object().shape({ ..._validationSchema }));
+  }
+
+  const onSubmit = (values: any, { setSubmitting, resetForm, setStatus }:
+    {
+      setSubmitting: any;
+      resetForm: any;
+      setStatus: any;
+    }) => {
+    console.log('values', values)
+    setSubmitting(false);
+  }
+
   return (
-    <VStack className="formContainer">
-      <div>{"Your Form"}</div>
-      <Droppable droppableId={"form"}>
-        {(provided) => (
-          <div
-            className="formDroppableContainer"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {elements.map((element: any, idx: number) => (
-              <FormElement key={element.id} element={element} index={idx} />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </VStack>
+    <FormikForm
+      enableReinitialize
+      initialValues={formData}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      <VStack className="formContainer">
+        <Field
+          type="text"
+          as={Input}
+          name="formName"
+          id="formName"
+          placeholder={"Your Form"}
+        />
+        <Droppable droppableId={"form"}>
+          {(provided) => (
+            <div
+              className="formDroppableContainer"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {elements.map((element: any, idx: number) => (
+                <FormElement key={element.id} element={element} index={idx} />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </VStack>
+    </FormikForm >
   );
 };
 
@@ -180,7 +260,6 @@ const PaletteElement = ({ element, index }: { element: any, index: any }) => {
             <DragHandleIcon />
           </div>
           <Text>{element.content}</Text>
-          {/* </div> */}
         </HStack>
       )}
     </Draggable>
@@ -223,7 +302,7 @@ function renderFormElement(type: string, element: any, provided: any) {
           </div>
         </HStack>
       );
-    case "checkbox":
+    case "multi_select":
       return (
         <HStack
           className="elementContainer"
@@ -237,6 +316,29 @@ function renderFormElement(type: string, element: any, provided: any) {
         </HStack>
       );
     case "short_text":
+      return (
+        <HStack
+          className="elementContainer"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <VStack w="100%">
+            <Input placeholder="Enter question" />
+            <Input placeholder="Enter description" />
+            <Input placeholder="Enter placeholder (optional)" />
+            <FormControl display='flex' alignItems='center'>
+              <FormLabel htmlFor='is-required' mb='0'>
+                Required question?
+              </FormLabel>
+              <Switch id='is-required' />
+            </FormControl>
+          </VStack>
+          <div className="handle" {...provided.dragHandleProps}>
+            <DragHandleIcon />
+          </div>
+        </HStack>
+      );
+    case "radio":
       return (
         <HStack
           className="elementContainer"
