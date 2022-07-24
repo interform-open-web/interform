@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HStack, VStack, Text, Input } from "@chakra-ui/react";
+import { HStack, VStack, Text, Input, Box, Stack } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 
@@ -69,7 +69,7 @@ const Builder = () => {
   const [elements, setElements] = useState<any>(elementMap);
   const [formElements, setFormElements] = useState<string[]>([]);
 
-  function onDragEnd(result) {
+  function onDragEnd(result: any) {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -108,12 +108,14 @@ const Builder = () => {
   const fElements = formElements.map((id) => formDataMap[id]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <HStack className="container">
-        <Palette key="palette" elements={pElements} />
-        <Form key="form" elements={fElements} />
-      </HStack>
-    </DragDropContext>
+    <Box paddingTop={20}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Stack className="container" spacing={[1, 5]} direction={['column', 'column', 'row']}>
+          <Palette key="palette" elements={pElements} />
+          <Form key="form" elements={fElements} />
+        </Stack>
+      </DragDropContext>
+    </Box>
   );
 };
 
@@ -132,7 +134,7 @@ const Palette = ({ elements }: ColumnProps) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {elements.map((element, idx) => (
+            {elements.map((element: any, idx: number) => (
               <PaletteElement key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
@@ -154,7 +156,7 @@ const Form = ({ elements }: ColumnProps) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {elements.map((element, idx) => (
+            {elements.map((element: any, idx: number) => (
               <FormElement key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
@@ -165,7 +167,7 @@ const Form = ({ elements }: ColumnProps) => {
   );
 };
 
-const PaletteElement = ({ element, index }) => {
+const PaletteElement = ({ element, index }: { element: any, index: any }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
       {(provided) => (
@@ -185,7 +187,7 @@ const PaletteElement = ({ element, index }) => {
   );
 };
 
-const FormElement = ({ element, index }) => {
+const FormElement = ({ element, index }: { element: any, index: any }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
       {(provided) => renderFormElement(element.type, provided)}

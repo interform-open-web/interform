@@ -1,7 +1,8 @@
-import { IconButton, Text, VStack } from '@chakra-ui/react'
+import { Button, IconButton, Text, VStack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { FaGithub } from 'react-icons/fa'
 import styles from '@styles/Home.module.css'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +16,9 @@ const Home: NextPage = () => {
             <Text fontSize='1.5rem'>
               {`Forms on the dentralized web. Powered by InterPlanetary File System and Filecoin.`}
             </Text>
+            <Link href="/builder">
+              <Button>Build your own form</Button>
+            </Link>
             <p className={styles.description}>
               Check out the source code{' '}
               <a href="https://github.com/straightupjac/interform" target="_blank" rel="noreferrer">
