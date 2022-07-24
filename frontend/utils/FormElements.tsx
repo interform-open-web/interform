@@ -6,10 +6,12 @@ import {
   Form as FormikForm,
   ErrorMessage,
   useFormikContext,
+  Field,
 } from 'formik';
 import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio, Textarea, Button } from '@chakra-ui/react';
 
 export function Form(props: any) {
+  const { onSubmit } = props;
   return (
     <Formik
       {...props}
@@ -22,21 +24,23 @@ export function Form(props: any) {
 
 export function TextField(props: any) {
   const { question, description, label, placeholder, isRequired, ...rest } = props;
+
   return (
     <>
       <HStack>
         <h3>{question}</h3>
         {isRequired && <Text color="red.400">*</Text>}
-      </HStack>      {description && <Text color="gray.600">{description}</Text>}
-      <Input
-        className="form-control"
+      </HStack>
+      {description && <Text color="gray.600">{description}</Text>}
+      <Field
         type="text"
+        as={Input}
         name={label}
         id={label}
         placeholder={placeholder || ""}
         {...rest}
       >
-      </Input>
+      </Field>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )
@@ -50,15 +54,15 @@ export function LongTextField(props: any) {
         <h3>{question}</h3>
         {isRequired && <Text color="red.400">*</Text>}
       </HStack>      {description && <Text color="gray.600">{description}</Text>}
-      <Textarea
-        className="form-control"
+      <Field
         type="text"
+        as={Textarea}
         name={label}
         id={label}
         placeholder={placeholder || ""}
         {...rest}
       >
-      </Textarea>
+      </Field>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )
@@ -66,6 +70,8 @@ export function LongTextField(props: any) {
 
 export function SelectField(props: any) {
   const { question, description, label, options, isRequired } = props;
+  console.log('props', label, props);
+
   return (
     <>
       <HStack>
@@ -73,13 +79,14 @@ export function SelectField(props: any) {
         {isRequired && <Text color="red.400">*</Text>}
       </HStack>
       {description && <Text color="gray.600">{description}</Text>}
-      <Select
+      <Field
         id={label}
+        as={Select}
         name={label}
       >
         <option value="" >Choose...</option>
         {options.map((optn: any, idx: number) => <option key={idx} value={optn.value} label={optn.label || optn.value} />)}
-      </Select>
+      </Field>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )
@@ -114,21 +121,20 @@ export function Radio(props: any) {
         {isRequired && <Text color="red.400">*</Text>}
       </HStack>
       {description && <Text color="gray.600">{description}</Text>}
-      <RadioGroup id={label}>
+      <Field as={RadioGroup} id={label}>
         <Stack spacing={[1, 5]} direction={'column'}>
           {options.map((optn: any, idx: number) => <ChakraRadio key={idx} value={optn.value} name={label}>{optn.label || optn.value}</ChakraRadio>)}
         </Stack>
-      </RadioGroup>
+      </Field>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )
 }
 
 export function SubmitButton(props: any) {
-  const { title, ...rest } = props;
   const { isSubmitting } = useFormikContext();
 
   return (
-    <Button type="submit" {...rest} disabled={isSubmitting}>Submit</Button>
+    <Button type="submit" {...props} disabled={isSubmitting}>Submit</Button>
   )
 }

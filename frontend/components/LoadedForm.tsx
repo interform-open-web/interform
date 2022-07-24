@@ -17,6 +17,7 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
 
     for (var formItem of formSchema) {
       let key = formItem.label;
+      _formData[key] = "";
 
       if (formItem.type === "input") {
         _validationSchema[key] = Yup.string();
@@ -83,11 +84,11 @@ export const LoadedForm = ({ formSchema, style }: { formSchema: any, style?: any
     <div className="App">
       <Form
         enableReinitialize
-        validationSchema={validationSchema}
         initialValues={formData}
+        // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <VStack gap={2}>
+        <VStack gap={2} paddingBottom={2}>
           {formSchema.map((item: any, idx: number) => (
             <Box key={idx} width="100%" >
               {getFormElement(item)}

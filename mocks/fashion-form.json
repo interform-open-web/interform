@@ -115,7 +115,7 @@
       "label": "openEndedPreference",
       "description": "",
       "isRequired": true,
-      "Type": "input",
+      "type": "input",
       "placeholder": ""
     }
   ]
