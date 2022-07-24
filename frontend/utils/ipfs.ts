@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-const { create } = require('ipfs-http-client');
+import { create } from 'ipfs-http-client';
 
 const projectId = process.env.INFURA_PROJECT_ID;
 const projectSecret = process.env.INFURA_PROJECT_SECRET;
@@ -24,7 +24,7 @@ const addToIpfs = async (payload: any) => {
   return result.path;
 }
 
-const fetchFromIpfs = async (cid: string) => {
+export const fetchFromIpfs = async (cid: string) => {
   const resp = await ipfs.cat(cid);
   let content: any = [];
   for await (const chunk of resp) {
@@ -37,7 +37,7 @@ const fetchFromIpfs = async (cid: string) => {
 }
 
 // helper function to determine if a string returned from ipfs contains json or not
-const hasJsonStructure = (str: string) => {
+export const hasJsonStructure = (str: string) => {
   if (typeof str !== 'string') return false;
   try {
     const result = JSON.parse(str);
@@ -49,7 +49,3 @@ const hasJsonStructure = (str: string) => {
   }
 };
 
-module.exports = {
-  addToIpfs,
-  fetchFromIpfs,
-}
