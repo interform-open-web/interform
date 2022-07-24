@@ -1,5 +1,5 @@
 import { Box, HStack, VStack } from "@chakra-ui/react";
-import { Form, Multiselect, SelectField, TextField } from "@utils/FormElements";
+import { Form, Multiselect, Radio, SelectField, TextField } from "@utils/FormElements";
 import { useEffect, useState } from "react";
 import * as Yup from 'yup';
 
@@ -15,8 +15,6 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
     let _formData = {} as any;
     let _validationSchema = {} as any;
 
-    console.log(formSchema)
-
     for (var formItem of formSchema) {
       let key = formItem.label;
 
@@ -27,6 +25,8 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
       } else if (formItem.type === "select") {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
       } else if (formItem.type === "multiselect") {
+        _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
+      } else if (formItem.type === "radio") {
         _validationSchema[key] = Yup.string().oneOf(formItem.options.map((o: any) => o.value));
       } else {
         _validationSchema[key] = Yup.string();
@@ -56,6 +56,10 @@ export const LoadedForm = ({ formSchema }: { formSchema: any }) => {
 
     if (elementSchema.type === "multiselect") {
       return <Multiselect  {...elementSchema} />
+    }
+
+    if (elementSchema.type === "radio") {
+      return <Radio  {...elementSchema} />
     }
   }
 

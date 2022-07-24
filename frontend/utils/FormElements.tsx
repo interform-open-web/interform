@@ -7,7 +7,7 @@ import {
   ErrorMessage,
   useFormikContext,
 } from 'formik';
-import { Checkbox, CheckboxGroup, HStack, Input, Select, Stack, Text } from '@chakra-ui/react';
+import { Checkbox, CheckboxGroup, HStack, Input, RadioGroup, Select, Stack, Text, Radio as ChakraRadio } from '@chakra-ui/react';
 
 export function Form(props: any) {
   return (
@@ -77,6 +77,26 @@ export function Multiselect(props: any) {
           {options.map((optn: any, idx: number) => <Checkbox key={idx} value={optn.value} name={label}>{optn.label || optn.value}</Checkbox>)}
         </Stack>
       </CheckboxGroup>
+      <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
+    </>
+  )
+}
+
+export function Radio(props: any) {
+  const { question, description, label, options, isRequired } = props;
+
+  return (
+    <>
+      <HStack>
+        <h3>{question}</h3>
+        {isRequired && <Text color="red.400">*</Text>}
+      </HStack>
+      {description && <Text color="gray.600">{description}</Text>}
+      <RadioGroup id={label}>
+        <Stack spacing={[1, 5]} direction={'column'}>
+          {options.map((optn: any, idx: number) => <ChakraRadio key={idx} value={optn.value} name={label}>{optn.label || optn.value}</ChakraRadio>)}
+        </Stack>
+      </RadioGroup>
       <ErrorMessage name={label} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
     </>
   )
