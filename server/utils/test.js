@@ -1,4 +1,4 @@
-import * as IPFS from 'ipfs-core';
+const IPFS = require('ipfs-core');
 
 async function main() {
   const node = await IPFS.create();

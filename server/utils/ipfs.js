@@ -1,5 +1,5 @@
-import { create } from 'ipfs-http-client'
-import 'dotenv/config'
+require('dotenv').config();
+const { create } = require('ipfs-http-client');
 
 const projectId = process.env.INFURA_PROJECT_ID;
 const projectSecret = process.env.INFURA_PROJECT_SECRET;
@@ -18,12 +18,12 @@ const ipfs = create({
 // }
 
 // return CID aka path
-export const addToIpfs = async (payload) => {
+const addToIpfs = async (payload) => {
   let result = await ipfs.add(JSON.stringify(payload));
   return result.path;
 }
 
-export const fetchFromIpfs = async (cid) => {
+const fetchFromIpfs = async (cid) => {
   const resp = await ipfs.cat(cid);
   let content = [];
   for await (const chunk of resp) {
@@ -39,11 +39,16 @@ export const fetchFromIpfs = async (cid) => {
 const hasJsonStructure = (str) => {
   if (typeof str !== 'string') return false;
   try {
-      const result = JSON.parse(str);
-      const type = Object.prototype.toString.call(result);
-      return type === '[object Object]'
-          || type === '[object Array]';
+    const result = JSON.parse(str);
+    const type = Object.prototype.toString.call(result);
+    return type === '[object Object]'
+      || type === '[object Array]';
   } catch (err) {
-      return false;
+    return false;
   }
 };
+
+module.exports = {
+  addToIpfs,
+  fetchFromIpfs,
+}
