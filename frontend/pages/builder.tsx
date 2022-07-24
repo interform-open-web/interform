@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, List } from "@chakra-ui/react";
+import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, List, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Form as FormikForm } from "@utils/FormElements";
 import * as Yup from 'yup';
 import { Field } from "formik";
 import { AddOption } from "@components/BuilderElements";
+import { randomBytes, randomUUID } from "crypto";
+import CID from "cids";
+import Multihashing from "multihashing-async";
 
 const elementMap = {
   select: {
@@ -124,6 +127,8 @@ const Palette = ({ elements }: ColumnProps) => {
 
 const Form = ({ elements }: ColumnProps) => {
   const [formSchema, setFormSchema] = useState([]);
+  const [creatingForm, setCreatingForm] = useState(false);
+  const [cid, setCid] = useState('');
   const [formData, setFormData] = useState({});
   const [validationSchema, setValidationSchema] = useState({});
 
@@ -175,6 +180,14 @@ const Form = ({ elements }: ColumnProps) => {
     setSubmitting(false);
   }
 
+  const handleFormCreate = async () => {
+    setCid('');
+    setCreatingForm(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setCreatingForm(false);
+    setCid(new CID(1, 'dag-pb', await Multihashing(new TextEncoder().encode(randomBytes(20).toString('hex')), 'sha2-256')).toString('base32'));
+  };
+
   return (
     <FormikForm
       enableReinitialize
@@ -204,6 +217,24 @@ const Form = ({ elements }: ColumnProps) => {
             </div>
           )}
         </Droppable>
+        {cid && <Alert status='success'>
+          <AlertIcon />
+          <VStack alignItems="start">
+            <AlertTitle>Congratuations, your form is ready!</AlertTitle>
+            <AlertDescription>{cid}</AlertDescription>
+          </VStack>
+        </Alert>}
+      </VStack>
+      <VStack alignItems="end">
+        {creatingForm ?
+          <Button onClick={handleFormCreate} leftIcon={<Spinner />} disabled>
+            Create form
+          </Button>
+          :
+          <Button onClick={handleFormCreate}>
+            Create form
+          </Button>
+        }
       </VStack>
     </FormikForm >
   );
