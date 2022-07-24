@@ -7,7 +7,7 @@
       "description": "We welcome anecdotes, long form answers.",
       "isRequired": true,
       "Type": "input",
-      "Placeholder": ""
+      "placeholder": ""
     },
     {
       "question": "How much of your daily digital interactions do you believe are censorship resistant?",
@@ -44,7 +44,7 @@
       "description": "",
       "isRequired": true,
       "Type": "input",
-      "Placeholder": ""
+      "placeholder": ""
     }
   ]
 }
