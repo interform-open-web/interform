@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { HStack, VStack, Text, Input, Box, Stack, Switch, FormControl, FormLabel, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, Center } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Form as CustomForm } from "@utils/FormElements";
@@ -195,7 +195,7 @@ const Form = ({ elements }: ColumnProps) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <VStack className="formContainer">
+      <VStack className="formContainer" overflow="scroll">
         <Field
           type="text"
           as={Input}
@@ -203,6 +203,14 @@ const Form = ({ elements }: ColumnProps) => {
           id="formName"
           placeholder={"Your Form"}
         />
+        <Center>
+          <FormControl display='flex' alignItems='center'>
+            <FormLabel htmlFor='collect-address' mb='0'>
+              Collect addresses?
+            </FormLabel>
+            <Switch id='collect-address' />
+          </FormControl>
+        </Center>
         <Droppable droppableId={"form"}>
           {(provided) => (
             <div
