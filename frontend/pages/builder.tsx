@@ -190,12 +190,12 @@ const PaletteElement = ({ element, index }: { element: any, index: any }) => {
 const FormElement = ({ element, index }: { element: any, index: any }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
-      {(provided) => renderFormElement(element.type, provided)}
+      {(provided) => renderFormElement(element.type, element, provided)}
     </Draggable>
   );
 };
 
-function renderFormElement(type: string, provided: any) {
+function renderFormElement(type: string, element: any, provided: any) {
   switch (type) {
     case "select":
       return (
