@@ -1,0 +1,44 @@
+.navbar {
+  position: fixed;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+  z-index: 100;
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+  height: 100px;
+}
+
+.backButtonBox {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 3rem;
+
+  width: 84px;
+  height: 94px;
+  left: 100px;
+  top: 84px;
+
+  background: #ffffff;
+  border-left: 0.5px solid rgba(0, 0, 0, 0.3);
+  border-right: 0.5px solid rgba(0, 0, 0, 0.3);
+}
+
+.spacer {
+  width: 10px;
+}
+
+.title {
+  position: absolute;
+  left: calc(50% - 50px);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+
+  color: rgba(0, 0, 0, 0.8);
+}

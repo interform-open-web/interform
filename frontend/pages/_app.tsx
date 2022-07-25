@@ -1,40 +1,38 @@
 import "@styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme, StylesProvider } from "@chakra-ui/react";
 import { Meta } from "@components/Meta";
 import { NavBar } from "@components/Navbar";
+import { Backdrop } from "@components/Backdrop";
 
 /** Rainbow Kit */
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import {
-  chain,
-  configureChains,
-  createClient,
-  WagmiConfig,
-} from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
+  Theme,
+  lightTheme,
+} from "@rainbow-me/rainbowkit";
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import merge from "lodash.merge";
+import { useEffect, useState } from "react";
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
-  [
-    publicProvider()
-  ]
+  [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'Verify User Demo',
-  chains
+  appName: "Verify User Demo",
+  chains,
 });
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
-  provider
-})
+  provider,
+});
 
 /* Theming */
 const theme = extendTheme({
@@ -63,12 +61,25 @@ const theme = extendTheme({
   },
 });
 
+// rainbow theme
+const customTheme = merge(lightTheme(), {
+  colors: {
+    accentColor: "#7153FF",
+  },
+} as Theme);
+
 function MyApp({ Component, pageProps }: AppProps) {
+  const [mounted, setMounted] = useState(false);
+
+  // prevent hydration UI bug: https://blog.saeloun.com/2021/12/16/hydration.html
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   return (
     <>
       <Meta />
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
+        <RainbowKitProvider chains={chains} theme={customTheme}>
           <ChakraProvider theme={theme}>
             <NavBar />
             <Component {...pageProps} />

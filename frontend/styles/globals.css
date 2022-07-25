@@ -7,6 +7,12 @@ body {
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    #111013 8.64%,
+    #262239 67.17%,
+    #232033 97.62%
+  ) !important;
 }
 
 a {

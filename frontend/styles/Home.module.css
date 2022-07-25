@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .main {
@@ -73,4 +74,48 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-@media (max-width: 600px) {}
+@media (max-width: 600px) {
+}
+
+.selectionContainer {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.githubButton {
+  width: 30px;
+  height: 30px;
+}
+
+.dashboardButton {
+  width: 321px;
+  height: 74px;
+
+  background: #999999 !important;
+  border-radius: 20px;
+  color: white;
+}
+
+.buildButton {
+  width: 321px;
+  height: 74px;
+
+  background: #7153ff !important;
+  border-radius: 20px;
+  color: white;
+}
+
+.divider {
+  width: 0.5px;
+  height: 200px;
+  background: #eaeaea;
+  opacity: 0.7;
+}
+
+.containerLeft {
+  padding-right: 2rem;
+}
+.containerRight {
+  padding-left: 2rem;
+}

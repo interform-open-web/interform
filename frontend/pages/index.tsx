@@ -1,48 +1,72 @@
-import { Button, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
-import type { NextPage } from 'next'
-import { FaGithub } from 'react-icons/fa'
-import styles from '@styles/Home.module.css'
-import Link from 'next/link'
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Spacer,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import type { NextPage } from "next";
+import { FaGithub } from "react-icons/fa";
+import styles from "@styles/Home.module.css";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
+  const { address } = useAccount();
+
   return (
     <>
       <div className={styles.container}>
         <main className={styles.main}>
-          <VStack gap={2}>
-            <h1 className={styles.title}>
-              Interform
-            </h1>
-            <Text fontSize='1.5rem'>
-              {`Forms on the dentralized web. Powered by InterPlanetary File System and Filecoin.`}
-            </Text>
-            <HStack gap={2}>
-              <Link href="/builder">
-                <Button>Build your own form</Button>
-              </Link>
-              <Link href="https://www.interform.app/">
-                <Button>Landing Page</Button>
-              </Link>
-            </HStack>
-            <p className={styles.description}>
-              Check out the source code{' '}
-              <a href="https://github.com/interform-open-web/interform" target="_blank" rel="noreferrer">
-                <code className={styles.code}>interform</code>
+          {!address ? (
+            <VStack gap={2}>
+              <h1 className={styles.title}>Interform</h1>
+              <Text fontSize="1.5rem">
+                {`Forms on the decentralized web. Powered by IPFS and Filecoin.`}
+              </Text>
+              <Spacer h="10px"></Spacer>
+              <ConnectButton />
+              <Spacer h="10px"></Spacer>
+              <a
+                href="https://github.com/interform-open-web/interform"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <IconButton
+                  aria-label="github icon"
+                  colorScheme="dark"
+                  variant="ghost"
+                  icon={<FaGithub className={styles.githubButton} />}
+                />
               </a>
-            </p>
-            <a href="https://github.com/interform-open-web/interform" rel="noreferrer" target="_blank" >
-              <IconButton
-                aria-label="github icon"
-                colorScheme="dark"
-                variant="ghost"
-                icon={<FaGithub />}
-              />
-            </a>
-          </VStack>
+            </VStack>
+          ) : (
+            <HStack gap={2} className={styles.selectionContainer}>
+              <VStack className={styles.containerLeft}>
+                <Text fontSize="1.5rem" w="400px">
+                  {`Already have an existing form to edit or view responses?`}
+                </Text>
+                <Spacer h="10px"></Spacer>
+                <Button className={styles.dashboardButton}>
+                  Go to Dashboard
+                </Button>
+              </VStack>
+              <Box className={styles.divider}></Box>
+              <VStack className={styles.containerRight}>
+                <Text fontSize="1.5rem" w="400px">
+                  {`Want to build a new form on the decentralized web?`}
+                </Text>
+                <Spacer h="10px"></Spacer>
+                <Button className={styles.buildButton}>Create Form</Button>
+              </VStack>
+            </HStack>
+          )}
         </main>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
