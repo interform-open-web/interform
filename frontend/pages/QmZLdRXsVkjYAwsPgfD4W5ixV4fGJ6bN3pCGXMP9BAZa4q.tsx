@@ -9,53 +9,16 @@ import {
   Image,
   Box,
   Button,
+  Spinner,
 } from "@chakra-ui/react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Radio, RadioGroup } from "@chakra-ui/react";
-import { BuilderNavBar } from "../components/BuilderNavbar";
-import styles from "@styles/Build.module.css";
+import { FormNavBar } from "../components/FormNavbar";
+import styles from "@styles/form.module.css";
 import { SimpleGrid } from "@chakra-ui/react";
 import Link from "next/link";
-
-// {
-//     Type: “Radio”,
-//     Question: “question_text”,
-//     Description: “”,
-//     isRequired: boolean,
-//     Options: [“text1”, “text2”, “text3”...],
-//     allowOther: boolean,
-//     Option_image: [“src_link1”, “src_link2”]
-//     }
-// {
-//     Type: short_response,
-//     Question: “question_text”,
-//     Description: “”,
-//     isRequired: boolean,
-// }
-
-// const elementMap = {
-//   "element-1": {
-//     id: "element-1",
-//     type: "radio",
-//     content: "Radio Element",
-//   },
-//   "element-2": {
-//     id: "element-2",
-//     type: "input",
-//     content: "Input Element",
-//   },
-//   "element-3": {
-//     id: "element-3",
-//     type: "checkbox",
-//     content: "Checkbox Element",
-//   },
-//   "element-4": {
-//     id: "element-4",
-//     type: "short_text",
-//     content: "Short Response Element",
-//   },
-// };
 
 const elementMap = {
   short_text: {
@@ -136,6 +99,18 @@ const Builder = () => {
   const [shortTextInput, setshortTextInput] = useState<string>("");
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const isAuthRequired = false;
+
+  function handlePublish() {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsSubmitted(true);
+      setIsLoading(false);
+    }, 2000);
+  }
 
   function onDragEnd(result) {
     const { destination, source, draggableId } = result;
@@ -216,27 +191,14 @@ const Builder = () => {
     };
   }
 
-  // function handleRadioChange(e, id) {
-  //   console.log("written: ", e.target.value);
-  //   // setshortTextInput(e.target.value);
-
-  //   // overwrite just the description part
-  //   const newshortTextInputs = { ...shortTextInputs };
-  //   newshortTextInputs[id].question = e.target.value;
-
-  //   // overwrite the entire JSON
-  //   setshortTextInputs(newshortTextInputs);
-  // }
-
   const pElements = paletteElements.map((id: string) => elements[id]);
   const fElements = formElements.map((id) => formDataMap[id]);
 
   return (
     <>
-      <BuilderNavBar setIsSubmitted={setIsSubmitted} />
+      <FormNavBar />
       <DragDropContext onDragEnd={onDragEnd}>
         <HStack className={styles.container}>
-          <Palette key="palette" elements={pElements} />
           <Form
             key="form"
             elements={fElements}
@@ -245,33 +207,13 @@ const Builder = () => {
             shortTextInputs={shortTextInputs}
             getHandlerForInput={getHandlerForInput}
             isSubmitted={isSubmitted}
+            handlePublish={handlePublish}
+            isLoading={isLoading}
+            isAuthRequired={isAuthRequired}
           />
         </HStack>
       </DragDropContext>
     </>
-  );
-};
-
-const Palette = ({ elements }: ColumnProps) => {
-  return (
-    <VStack className={styles.paletteContainer}>
-      <div className={styles.paletteTitle}>{"ELEMENTS"}</div>
-      <Droppable droppableId={"palette"}>
-        {(provided) => (
-          <SimpleGrid
-            columns={2}
-            className={styles.paletteDroppableContainer}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {elements.map((element, idx) => (
-              <PaletteElement key={element.id} element={element} index={idx} />
-            ))}
-            {provided.placeholder}
-          </SimpleGrid>
-        )}
-      </Droppable>
-    </VStack>
   );
 };
 
@@ -281,7 +223,10 @@ type ColumnProps = {
   // shortTextInput: string;
   shortTextInputs: any;
   getHandlerForInput: (elemId: string, param: string) => (e: any) => void;
+  handlePublish: () => void;
   isSubmitted: boolean;
+  isLoading: boolean;
+  isAuthRequired: boolean;
 };
 
 const Form = ({
@@ -289,92 +234,94 @@ const Form = ({
   shortTextInputs,
   getHandlerForInput,
   isSubmitted,
+  handlePublish,
+  isLoading,
+  isAuthRequired,
 }: ColumnProps) => {
-  return !isSubmitted ? (
-    <VStack className={styles.formContainer}>
-      <Box className={styles.formInputContainer}>
-        <Input
-          placeholder="Your Form"
-          fontSize="2rem"
-          fontWeight="700"
-          fontFamily="Montserrat"
-        ></Input>
-      </Box>
-      <Droppable droppableId={"form"}>
-        {(provided) => (
-          <VStack
-            className={styles.formDroppableContainer}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            spacing={3}
-          >
-            {elements.length > 0
-              ? elements.map((element, idx) => (
-                  <Draggable
-                    key={element.id}
-                    draggableId={element.id}
-                    index={idx}
-                  >
-                    {(provided) =>
-                      renderFormElement(
-                        element.id,
-                        element.type,
-                        element.imgUrl,
-                        provided,
-                        shortTextInputs,
-                        getHandlerForInput
-                      )
-                    }
-                  </Draggable>
-                ))
-              : null}
-            {provided.placeholder}
-          </VStack>
+  return isAuthRequired ? (
+    <VStack className={styles.formSubmittedContainer}>
+      <Text className={styles.walletTitle}>
+        In order to see the survey, you must connect your wallet to the app.
+      </Text>
+      <Text className={styles.walletSubtitle}>
+        Please note that your wallet address may be stored alongside the
+        response you submit for this form.
+      </Text>
+      <ConnectButton />
+    </VStack>
+  ) : !isSubmitted ? (
+    <VStack className={styles.formContainer} spacing={6}>
+      <Text className={styles.formTitle}>Survey for Orange Pill DAO</Text>
+      <HStack className={styles.formElementContainer}>
+        <VStack w="100%" justifyContent="flex-start" alignItems="flex-start">
+          <Text className={styles.formQuestion}>
+            How do you feel about what the government has done to our economy
+            over these past few years? *
+          </Text>
+          <Input
+            className={styles.formElementInput}
+            fontSize="1.4rem"
+            fontWeight="500"
+            fontFamily="Montserrat"
+          />
+        </VStack>
+      </HStack>
+      <HStack className={styles.formRadioElementContainer}>
+        <VStack w="100%" justifyContent="flex-start" alignItems="flex-start">
+          <Text className={styles.formQuestion}>
+            In the last year have you attended any events to support the great
+            orange cause? *
+          </Text>
+          <RadioGroup w="100%">
+            <VStack w="100%" alignItems="flex-start" paddingLeft="1rem">
+              <Radio className={styles.radioOption}>Yes</Radio>
+              <Radio>No</Radio>
+            </VStack>
+          </RadioGroup>
+        </VStack>
+      </HStack>
+      <HStack className={styles.formRadioElementContainer}>
+        <VStack w="100%" justifyContent="flex-start" alignItems="flex-start">
+          <Text className={styles.formQuestion}>
+            Would you be interested in our Bitcoin rally if we were to organize
+            one on 06/09/2023, 4:20pm?
+          </Text>
+          <RadioGroup w="100%">
+            <VStack w="100%" alignItems="flex-start" paddingLeft="1rem">
+              <Radio className={styles.radioOption}>Yes</Radio>
+              <Radio>No</Radio>
+            </VStack>
+          </RadioGroup>
+        </VStack>
+      </HStack>
+      <Button className={styles.publishButton} onClick={handlePublish}>
+        {isLoading ? (
+          <Box width="100%" display="flex" justifyContent="center">
+            <Spinner color="white" />
+          </Box>
+        ) : (
+          "Submit"
         )}
-      </Droppable>
+      </Button>
     </VStack>
   ) : (
     <VStack className={styles.formSubmittedContainer}>
       <Text className={styles.successTitle}>
-        Your form has been published successfully!
+        Your response has been submitted successfully!
       </Text>
       <VStack paddingTop={"2rem"} paddingBottom={"2rem"}>
-        <Link href={`/QmZLdRXsVkjYAwsPgfD4W5ixV4fGJ6bN3pCGXMP9BAZa4q`}>
-          <Text className={styles.successSubtitleLink}>
-            Share with:
-            launch.interform.app/QmZLdRXsVkjYAwsPgfD4W5ixV4fGJ6bN3pCGXMP9BAZa4q
-          </Text>
-        </Link>
         <a
-          href="https://gateway.pinata.cloud/ipfs/QmZLdRXsVkjYAwsPgfD4W5ixV4fGJ6bN3pCGXMP9BAZa4q"
+          href="https://gateway.pinata.cloud/ipfs/QmT6MmYhq1CfMKExERzvYH4yqGv4mF2hUrGr9uqThofheX"
           rel="noreferrer"
           target="_blank"
         >
           <Text className={styles.successSubtitle}>
-            IPFS CID: QmZLdRXsVkjYAwsPgfD4W5ixV4fGJ6bN3pCGXMP9BAZa4q
+            IPFS CID: QmT6MmYhq1CfMKExERzvYH4yqGv4mF2hUrGr9uqThofheX
           </Text>
         </a>
       </VStack>
       <Button className={styles.publishButton}>Go Back to Form</Button>
     </VStack>
-  );
-};
-
-const PaletteElement = ({ element, index }) => {
-  return (
-    <Draggable draggableId={element.id} index={index}>
-      {(provided) => (
-        <VStack
-          className={styles.paletteElementContainer}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
-          <Image src={`/${element.id}.png`} className={styles.elementImage} />
-          <Text>{element.content}</Text>
-        </VStack>
-      )}
-    </Draggable>
   );
 };
 

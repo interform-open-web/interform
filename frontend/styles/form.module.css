@@ -4,62 +4,65 @@
   box-sizing: border-box;
 }
 
-.paletteContainer {
-  margin: 8px;
-  padding: 8px 0 0 0;
-
-  position: absolute;
-  width: 354px;
-  left: 36px;
-  top: 125px;
-
-  background: #ffffff;
-  border: 0.5px solid rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
-.paletteTitle {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-  padding: 1rem;
-}
-
 .formContainer {
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  padding: 8px 0;
+  padding: 40px 0;
   padding-bottom: 32px;
-  width: 1770px;
+  width: 2150px;
 
   position: absolute;
-  /* height: 966px; */
   min-height: 30%;
-  left: 427px;
   top: 134px;
+  left: 40px;
 
   background: #ffffff;
   border: 0.5px solid rgba(0, 0, 0, 0.3);
   border-radius: 3px;
+}
+
+.formTitle {
+  width: 677px;
+  height: 59px;
+  left: 535px;
+  top: 254px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 59px;
+  /* identical to box height */
+
+  color: #000000;
+}
+
+.formQuestion {
+  width: 1043px;
+  height: 24px;
+  left: 349px;
+  top: 468px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
 }
 
 .formSubmittedContainer {
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  padding: 50px 0;
-  width: 1770px;
-
-  justify-content: center;
-  align-items: center;
+  padding: 40px 0;
+  padding-bottom: 32px;
+  width: 2150px;
 
   position: absolute;
-  /* height: 966px; */
   min-height: 30%;
-  left: 427px;
   top: 134px;
+  left: 40px;
 
   background: #ffffff;
   border: 0.5px solid rgba(0, 0, 0, 0.3);
@@ -105,7 +108,7 @@
 
 .formElementContainer {
   justify-content: center;
-  padding: 8px;
+  padding: 16px;
   background-color: white;
 
   width: 1705px;
@@ -119,7 +122,7 @@
 
 .formRadioElementContainer {
   justify-content: center;
-  padding: 8px;
+  padding: 16px;
   background-color: white;
 
   width: 1705px;
@@ -131,9 +134,10 @@
   border-radius: 10px;
 }
 
-.radioOptionContainer {
-  width: 98%;
+.radioOption {
+  width: 200px;
 }
+
 .formInputContainer {
   display: flex;
   flex-direction: column;
@@ -164,21 +168,31 @@
 }
 
 /* 
-.formElementContainer {
-  justify-content: center;
+  .formElementContainer {
+    justify-content: center;
+  
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 8px;
+    background-color: white;
+    width: 177px;
+    height: 177px;
+    left: 36px;
+    top: 192px;
+  
+    background: #ffffff;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+  } */
 
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  background-color: white;
-  width: 177px;
-  height: 177px;
-  left: 36px;
-  top: 192px;
-
-  background: #ffffff;
-  border: 0.5px solid rgba(0, 0, 0, 0.15);
-} */
+.walletTitle {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 39px;
+  text-align: center;
+  padding-top: 20px;
+}
 
 .successTitle {
   font-family: "Montserrat";
@@ -189,18 +203,14 @@
   text-align: center;
 }
 
-.successSubtitleLink {
+.walletSubtitle {
   font-family: "Montserrat";
   font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 300;
+  font-size: 18px;
   line-height: 29px;
   text-align: center;
-}
-
-.successSubtitleLink:hover {
-  text-decoration: underline;
-  cursor: pointer;
+  padding-bottom: 30px;
 }
 
 .successSubtitle {

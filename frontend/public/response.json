@@ -1,0 +1,23 @@
+{
+  "title": "Survey for Orange Pill DAO",
+  "respondentAddress": "undefined",
+  "q1": {
+    "Type": "short_response",
+    "Question": "How do you feel about what the government has done to our economy over these past few years?",
+    "Response": "I feel very disappointed by mismanagement of our money supply"
+  },
+
+  "q2": {
+    "Type": "radio",
+    "Question": "In the last year have you attended any events to support the great orange cause?",
+    "Options": ["Yes", "No"],
+    "Response": "No"
+  },
+  "q3": {
+    "Type": "radio",
+    "Question": "Would you be interested in our Bitcoin rally if we were to organize one on 06/09/2023, 4:20pm?",
+    "Options": ["Yes", "No"],
+    "Response": "Yes"
+  },
+  "timestamp": "2022-07-23T01:20:49.124Z"
+}

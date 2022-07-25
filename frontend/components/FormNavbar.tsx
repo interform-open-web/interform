@@ -15,7 +15,7 @@ import styles from "@styles/Navbar.module.css";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
-export const BuilderNavBar = ({ setIsSubmitted }: any) => {
+export const FormNavBar = ({ setIsSubmitted }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function handlePublish() {
@@ -40,33 +40,9 @@ export const BuilderNavBar = ({ setIsSubmitted }: any) => {
             cursor="pointer"
           />
         </Link>
-        <Spacer w="10px"></Spacer>
-        <Box className={styles.backButtonBox}>
-          <IconButton
-            aria-label="back button"
-            variant="ChevronLeftIcon"
-            opacity=".9"
-            w="20px"
-            icon={<ChevronLeftIcon w={6} h={6} />}
-          />
-        </Box>
-        <Spacer w="10px"></Spacer>
-        <HStack>
-          <Text>Collect User Addresses</Text>
-          <Switch size="lg" colorScheme="purple" />
-        </HStack>
       </HStack>
       <Text className={styles.title}>InterForm</Text>
       <HStack>
-        <Button className={styles.publishButton} onClick={handlePublish}>
-          {isLoading ? (
-            <Box width="100%" display="flex" justifyContent="center">
-              <Spinner color="white" />
-            </Box>
-          ) : (
-            "Publish"
-          )}
-        </Button>
         <Spacer w="10px"></Spacer>
         <ConnectButton />
       </HStack>
