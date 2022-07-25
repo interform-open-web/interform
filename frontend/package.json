@@ -15,6 +15,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.9.3",
+    "@pinata/sdk": "^1.1.26",
     "@rainbow-me/rainbowkit": "^0.4.4",
     "cids": "^1.1.9",
     "dotenv": "^16.0.1",
