@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pinata/sdk": "^1.1.26",
     "axios": "^0.25.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
