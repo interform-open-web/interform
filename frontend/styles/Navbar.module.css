@@ -27,10 +27,6 @@
   border-right: 0.5px solid rgba(0, 0, 0, 0.3);
 }
 
-.spacer {
-  width: 10px;
-}
-
 .title {
   position: absolute;
   left: calc(50% - 50px);
@@ -41,4 +37,13 @@
   /* identical to box height */
 
   color: rgba(0, 0, 0, 0.8);
+}
+
+.publishButton {
+  width: 200px;
+  height: 74px;
+
+  background: #7153ff !important;
+  border-radius: 20px;
+  color: white;
 }

@@ -12,6 +12,7 @@ import { FaGithub } from "react-icons/fa";
 import styles from "@styles/Home.module.css";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { address } = useAccount();
@@ -49,9 +50,11 @@ const Home: NextPage = () => {
                   {`Already have an existing form to edit or view responses?`}
                 </Text>
                 <Spacer h="10px"></Spacer>
-                <Button className={styles.dashboardButton}>
-                  Go to Dashboard
-                </Button>
+                <Link href={`/dashboard`}>
+                  <Button className={styles.dashboardButton}>
+                    Go to Dashboard
+                  </Button>
+                </Link>
               </VStack>
               <Box className={styles.divider}></Box>
               <VStack className={styles.containerRight}>
@@ -59,7 +62,9 @@ const Home: NextPage = () => {
                   {`Want to build a new form on the decentralized web?`}
                 </Text>
                 <Spacer h="10px"></Spacer>
-                <Button className={styles.buildButton}>Create Form</Button>
+                <Link href={`/build`}>
+                  <Button className={styles.buildButton}>Create Form</Button>
+                </Link>
               </VStack>
             </HStack>
           )}

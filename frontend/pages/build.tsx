@@ -1,8 +1,21 @@
 import { useState } from "react";
-import { HStack, VStack, Text, Input, Switch, Stack } from "@chakra-ui/react";
+import {
+  HStack,
+  VStack,
+  Text,
+  Input,
+  Switch,
+  Stack,
+  Image,
+  Box,
+  Button,
+} from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { DragDropContext, Droppable, Draggable } from "../components/dnd";
 import { Radio, RadioGroup } from "@chakra-ui/react";
+import { BuilderNavBar } from "../components/BuilderNavbar";
+import styles from "@styles/Build.module.css";
+import { SimpleGrid } from "@chakra-ui/react";
 
 // {
 //     Type: “Radio”,
@@ -44,31 +57,72 @@ import { Radio, RadioGroup } from "@chakra-ui/react";
 // };
 
 const elementMap = {
-  radio: {
-    id: "radio",
-    type: "radio",
-    content: "Radio Element",
+  short_text: {
+    id: "short_text",
+    type: "short_text",
+    content: "Short Response",
   },
-  input: {
-    id: "input",
-    type: "input",
-    content: "Input Element",
+  long_text: {
+    id: "long_text",
+    type: "long_text",
+    content: "Long Response",
   },
   checkbox: {
     id: "checkbox",
     type: "checkbox",
-    content: "Checkbox Element",
+    content: "Checkbox",
   },
-  short_text: {
-    id: "short_text",
-    type: "short_text",
-    content: "Short Response Element",
+  dropdown: {
+    id: "dropdown",
+    type: "dropdown",
+    content: "Dropdown",
+  },
+  radio: {
+    id: "radio",
+    type: "radio",
+    content: "Radio",
+  },
+  image: {
+    id: "image",
+    type: "image",
+    content: "Image",
+  },
+  date: {
+    id: "date",
+    type: "date",
+    content: "Date",
+  },
+  geolocation: {
+    id: "geolocation",
+    type: "geolocation",
+    content: "Geolocation",
+  },
+  text: {
+    id: "text",
+    type: "text",
+    content: "Text",
+  },
+  video: {
+    id: "video",
+    type: "video",
+    content: "Video",
   },
 };
 
 const formDataMap = {} as any;
 
-const paletteElements = ["radio", "input", "checkbox", "short_text"];
+const paletteElements = [
+  "short_text",
+  "long_text",
+  "checkbox",
+  "dropdown",
+  "radio",
+  "image",
+  "date",
+  "geolocation",
+  "text",
+  "video",
+];
 
 const fetchNewId = () => Math.floor(Math.random() * 1000000).toString();
 
@@ -128,7 +182,7 @@ const Builder = () => {
         type: "radio",
         question: "",
         description: "",
-        options: ["Option 1", "Option 2", "Option 3"],
+        options: ["Option 1", "Option 2"],
         isRequired: false,
       };
 
@@ -175,30 +229,34 @@ const Builder = () => {
   const fElements = formElements.map((id) => formDataMap[id]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <HStack className="container">
-        <Palette key="palette" elements={pElements} />
-        <Form
-          key="form"
-          elements={fElements}
-          // handleRadioChange={handleRadioChange}
-          // shortTextInput={shortTextInput}
-          shortTextInputs={shortTextInputs}
-          getHandlerForInput={getHandlerForInput}
-        />
-      </HStack>
-    </DragDropContext>
+    <>
+      <BuilderNavBar />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <HStack className={styles.container}>
+          <Palette key="palette" elements={pElements} />
+          <Form
+            key="form"
+            elements={fElements}
+            // handleRadioChange={handleRadioChange}
+            // shortTextInput={shortTextInput}
+            shortTextInputs={shortTextInputs}
+            getHandlerForInput={getHandlerForInput}
+          />
+        </HStack>
+      </DragDropContext>
+    </>
   );
 };
 
 const Palette = ({ elements }: ColumnProps) => {
   return (
-    <VStack className="paletteContainer">
-      <div>{"Palette"}</div>
+    <VStack className={styles.paletteContainer}>
+      <div className={styles.paletteTitle}>{"ELEMENTS"}</div>
       <Droppable droppableId={"palette"}>
         {(provided) => (
-          <div
-            className="paletteDroppableContainer"
+          <SimpleGrid
+            columns={2}
+            className={styles.paletteDroppableContainer}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
@@ -206,7 +264,7 @@ const Palette = ({ elements }: ColumnProps) => {
               <PaletteElement key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
-          </div>
+          </SimpleGrid>
         )}
       </Droppable>
     </VStack>
@@ -227,14 +285,22 @@ const Form = ({
   getHandlerForInput,
 }: ColumnProps) => {
   return (
-    <VStack className="formContainer">
-      <div>{"Your Form"}</div>
+    <VStack className={styles.formContainer}>
+      <Box className={styles.formInputContainer}>
+        <Input
+          placeholder="Your Form"
+          fontSize="2rem"
+          fontWeight="700"
+          fontFamily="Montserrat"
+        ></Input>
+      </Box>
       <Droppable droppableId={"form"}>
         {(provided) => (
-          <div
-            className="formDroppableContainer"
+          <VStack
+            className={styles.formDroppableContainer}
             ref={provided.innerRef}
             {...provided.droppableProps}
+            spacing={3}
           >
             {elements.length > 0
               ? elements.map((element, idx) => (
@@ -247,6 +313,7 @@ const Form = ({
                       renderFormElement(
                         element.id,
                         element.type,
+                        element.imgUrl,
                         provided,
                         shortTextInputs,
                         getHandlerForInput
@@ -256,7 +323,7 @@ const Form = ({
                 ))
               : null}
             {provided.placeholder}
-          </div>
+          </VStack>
         )}
       </Droppable>
     </VStack>
@@ -267,17 +334,15 @@ const PaletteElement = ({ element, index }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
       {(provided) => (
-        <HStack
-          className="elementContainer"
+        <VStack
+          className={styles.paletteElementContainer}
           {...provided.draggableProps}
+          {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div className="handle" {...provided.dragHandleProps}>
-            <DragHandleIcon />
-          </div>
+          <Image src={`/${element.id}.png`} className={styles.elementImage} />
           <Text>{element.content}</Text>
-          {/* </div> */}
-        </HStack>
+        </VStack>
       )}
     </Draggable>
   );
@@ -286,6 +351,7 @@ const PaletteElement = ({ element, index }) => {
 function renderFormElement(
   id: string,
   type: string,
+  imgUrl: string,
   provided: any,
   shortTextInputs: any,
   getHandlerForInput: (elemId: string, param: string) => (e: any) => void
@@ -294,26 +360,28 @@ function renderFormElement(
     case "short_text":
       return (
         <HStack
-          className="elementContainer"
+          className={styles.formElementContainer}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
           <VStack w="100%">
             <Input
+              className={styles.formElementInput}
               placeholder="Enter question"
               onChange={getHandlerForInput(id, "question")}
               value={shortTextInputs[id]["question"]}
+              fontSize="1.4rem"
+              fontWeight="500"
+              fontFamily="Montserrat"
             />
-            <Input
-              placeholder="Enter description"
-              onChange={getHandlerForInput(id, "description")}
-              value={shortTextInputs[id]["description"]}
-            />
-            <Input disabled />
+            <Box className={styles.formElementTextBox}></Box>
+          </VStack>
+          <VStack>
             <Text>Required</Text>
             <Switch
               onChange={getHandlerForInput(id, "isRequired")}
               value={shortTextInputs[id]["isRequired"]}
+              colorScheme="purple"
             />
           </VStack>
           <div className="handle" {...provided.dragHandleProps}>
@@ -324,7 +392,7 @@ function renderFormElement(
     case "radio":
       return (
         <HStack
-          className="elementContainer"
+          className={styles.formRadioElementContainer}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
@@ -333,21 +401,22 @@ function renderFormElement(
               placeholder="Enter question"
               onChange={getHandlerForInput(id, "question")}
               value={shortTextInputs[id]["question"]}
+              fontSize="1.4rem"
+              fontWeight="500"
+              fontFamily="Montserrat"
             />
-            <Input
-              placeholder="Enter description"
-              onChange={getHandlerForInput(id, "description")}
-              value={shortTextInputs[id]["description"]}
-            />
-            <RadioGroup>
-              <VStack>
+            <RadioGroup w="100%">
+              <VStack w="100%">
                 {shortTextInputs[id]["options"].map((option: string) => (
-                  <HStack key={option}>
+                  <HStack key={option} className={styles.radioOptionContainer}>
                     <Radio isDisabled />
                     <Input
                       placeholder="Add option"
-                      onChange={getHandlerForInput(id, "description")}
-                      value={shortTextInputs[id]["description"]}
+                      // onChange={getHandlerForInput(id, "description")}
+                      // value={shortTextInputs[id]["description"]}
+                      w="400px"
+                      fontSize="1rem"
+                      fontFamily="Montserrat"
                     />
                   </HStack>
                 ))}
@@ -362,11 +431,11 @@ function renderFormElement(
     case "input":
       return (
         <HStack
-          className="elementContainer"
+          className={styles.elementContainer}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Text>{element.content}</Text>
+          <Text>{type}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>
@@ -375,11 +444,12 @@ function renderFormElement(
     case "checkbox":
       return (
         <HStack
-          className="elementContainer"
+          className={styles.elementContainer}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Text>{element.content}</Text>
+          <Image src={`/${type}.png`} />
+          <Text>{type}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />
           </div>

@@ -1,0 +1,160 @@
+.container {
+  width: 100vw;
+  padding: 9px;
+  box-sizing: border-box;
+}
+
+.paletteContainer {
+  margin: 8px;
+  padding: 8px 0 0 0;
+
+  position: absolute;
+  width: 354px;
+  left: 36px;
+  top: 125px;
+
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.paletteTitle {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  padding: 1rem;
+}
+
+.formContainer {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px 0;
+  padding-bottom: 32px;
+  width: 1770px;
+
+  position: absolute;
+  /* height: 966px; */
+  min-height: 30%;
+  left: 427px;
+  top: 134px;
+
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.paletteDroppableContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.formDroppableContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  min-height: 300px;
+}
+
+.elementImage {
+  width: 50%;
+  opacity: 0.3;
+}
+
+.paletteElementContainer {
+  justify-content: center;
+
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  background-color: white;
+  width: 177px;
+  height: 177px;
+  left: 36px;
+  top: 192px;
+
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+}
+
+.formElementContainer {
+  justify-content: center;
+  padding: 8px;
+  background-color: white;
+
+  width: 1705px;
+  left: 470px;
+  top: 440px;
+
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  border-radius: 10px;
+}
+
+.formRadioElementContainer {
+  justify-content: center;
+  padding: 8px;
+  background-color: white;
+
+  width: 1705px;
+  left: 470px;
+  top: 440px;
+
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  border-radius: 10px;
+}
+
+.radioOptionContainer {
+  width: 98%;
+}
+.formInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+.formElementInput {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.formElementTextBox {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 36px;
+  left: 493px;
+  top: 500px;
+
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+/* 
+.formElementContainer {
+  justify-content: center;
+
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  background-color: white;
+  width: 177px;
+  height: 177px;
+  left: 36px;
+  top: 192px;
+
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+} */
