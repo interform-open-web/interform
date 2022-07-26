@@ -112,7 +112,7 @@ const Builder = () => {
     }, 2000);
   }
 
-  function onDragEnd(result) {
+  function onDragEnd(result: any) {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -178,7 +178,7 @@ const Builder = () => {
 
   function getHandlerForInput(elemId: string, param: string) {
     console.log("shortTextInputs:", shortTextInputs);
-    return (e) => {
+    return (e: any) => {
       const newshortTextInputs = { ...shortTextInputs };
       if (param === "isRequired") {
         newshortTextInputs[elemId]["isRequired"] = !e.target.checked;
@@ -458,7 +458,7 @@ function renderFormElement(
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Image src={`/${type}.png`} />
+          <Image alt="placeholder image" src={`/${type}.png`} />
           <Text>{type}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />

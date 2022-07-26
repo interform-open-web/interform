@@ -137,7 +137,7 @@ const Builder = () => {
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  function onDragEnd(result) {
+  function onDragEnd(result: any) {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -203,7 +203,7 @@ const Builder = () => {
 
   function getHandlerForInput(elemId: string, param: string) {
     console.log("shortTextInputs:", shortTextInputs);
-    return (e) => {
+    return (e: any) => {
       const newshortTextInputs = { ...shortTextInputs };
       if (param === "isRequired") {
         newshortTextInputs[elemId]["isRequired"] = !e.target.checked;
@@ -236,7 +236,9 @@ const Builder = () => {
       <BuilderNavBar setIsSubmitted={setIsSubmitted} />
       <DragDropContext onDragEnd={onDragEnd}>
         <HStack className={styles.container}>
-          <Palette key="palette" elements={pElements} />
+          <Palette key="palette" elements={pElements} shortTextInputs={undefined} getHandlerForInput={function (elemId: string, param: string): (e: any) => void {
+            throw new Error("Function not implemented.");
+          }} isSubmitted={false} />
           <Form
             key="form"
             elements={fElements}
@@ -264,7 +266,7 @@ const Palette = ({ elements }: ColumnProps) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {elements.map((element, idx) => (
+            {elements.map((element: any, idx: any) => (
               <PaletteElement key={element.id} element={element} index={idx} />
             ))}
             {provided.placeholder}
@@ -309,24 +311,24 @@ const Form = ({
             spacing={3}
           >
             {elements.length > 0
-              ? elements.map((element, idx) => (
-                  <Draggable
-                    key={element.id}
-                    draggableId={element.id}
-                    index={idx}
-                  >
-                    {(provided) =>
-                      renderFormElement(
-                        element.id,
-                        element.type,
-                        element.imgUrl,
-                        provided,
-                        shortTextInputs,
-                        getHandlerForInput
-                      )
-                    }
-                  </Draggable>
-                ))
+              ? elements.map((element: any, idx: any) => (
+                <Draggable
+                  key={element.id}
+                  draggableId={element.id}
+                  index={idx}
+                >
+                  {(provided) =>
+                    renderFormElement(
+                      element.id,
+                      element.type,
+                      element.imgUrl,
+                      provided,
+                      shortTextInputs,
+                      getHandlerForInput
+                    )
+                  }
+                </Draggable>
+              ))
               : null}
             {provided.placeholder}
           </VStack>
@@ -360,7 +362,7 @@ const Form = ({
   );
 };
 
-const PaletteElement = ({ element, index }) => {
+const PaletteElement = ({ element, index }: { element: any, index: any }) => {
   return (
     <Draggable draggableId={element.id} index={index}>
       {(provided) => (
@@ -370,7 +372,7 @@ const PaletteElement = ({ element, index }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <Image src={`/${element.id}.png`} className={styles.elementImage} />
+          <Image alt="placeholder" src={`/${element.id}.png`} className={styles.elementImage} />
           <Text>{element.content}</Text>
         </VStack>
       )}
@@ -478,7 +480,7 @@ function renderFormElement(
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Image src={`/${type}.png`} />
+          <Image alt="placeholder iamge" src={`/${type}.png`} />
           <Text>{type}</Text>
           <div className="handle" {...provided.dragHandleProps}>
             <DragHandleIcon />

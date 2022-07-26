@@ -109,7 +109,7 @@ const Builder = () => {
 
   function getHandlerForInput(elemId: string, param: string) {
     console.log("shortTextInputs:", shortTextInputs);
-    return (e) => {
+    return (e: any) => {
       const newshortTextInputs = { ...shortTextInputs };
       if (param === "isRequired") {
         newshortTextInputs[elemId]["isRequired"] = !e.target.checked;
@@ -245,7 +245,7 @@ const Form = ({
               <Text className={styles.formSubtitle}>{"No (58.8%)"}</Text>
             </HStack>
           </Box>
-          <Image src="/pie.png"></Image>
+          <Image alt="placeholder image" src="/pie.png"></Image>
         </VStack>
       </HStack>
       {/* <HStack>
