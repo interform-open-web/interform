@@ -3,13 +3,9 @@ import {
   HStack,
   VStack,
   Text,
-  Input,
-  Switch,
-  Stack,
   Image,
   Box,
   Button,
-  Spinner,
 } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { FormNavBar } from "../../components/FormNavbar";
